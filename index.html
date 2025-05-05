@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login & Sign Up with Roles</title>
+  <title>Login & Sign Up</title>
   <style>
     body { margin: 0; font-family: Arial; background-color: white; }
     .container {
@@ -11,7 +11,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
     h2 { text-align: center; }
-    input, select {
+    input {
       width: 90%; padding: 10px; margin: 10px 0;
       border: 1px solid #ccc; border-radius: 5px;
     }
@@ -54,11 +54,6 @@
     <input type="email" placeholder="Email" id="signupEmail" required><br>
     <input type="password" placeholder="Password" id="signupPassword" required><br>
     <input type="password" placeholder="Re-enter Password" id="signupRePassword" required><br>
-    <select id="userRole" required>
-      <option value="">Select Role</option>
-      <option value="user">User</option>
-      <option value="admin">Admin</option>
-    </select><br>
     <div class="checkbox-container">
       <input type="checkbox" id="agree" required>
       <label for="agree">I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a></label>
@@ -78,13 +73,12 @@
 <script>
   // Firebase Config
   const firebaseConfig = {
-    apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-    authDomain: "shortxurl-c17c1.firebaseapp.com",
-    projectId: "shortxurl-c17c1",
-    storageBucket: "shortxurl-c17c1.firebasestorage.app",
-    messagingSenderId: "709834272600",
-    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-    measurementId: "G-M0ZNWXTFTE"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   };
 
   firebase.initializeApp(firebaseConfig);
@@ -101,11 +95,11 @@
     document.getElementById('loginForm').classList.remove('hidden');
   }
 
-  function showWelcome(role, name) {
+  function showWelcome(name) {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('signupForm').classList.add('hidden');
     document.getElementById('welcomeBox').classList.remove('hidden');
-    document.getElementById('welcomeMsg').innerText = `Welcome ${role.toUpperCase()} - ${name}`;
+    document.getElementById('welcomeMsg').innerText = `Welcome ${name}`;
   }
 
   // Sign Up
@@ -114,11 +108,9 @@
     const email = document.getElementById('signupEmail').value;
     const pass = document.getElementById('signupPassword').value;
     const repass = document.getElementById('signupRePassword').value;
-    const role = document.getElementById('userRole').value;
     const agree = document.getElementById('agree').checked;
 
     if (!agree) return alert("You must agree to the Terms.");
-    if (!role) return alert("Please select a role.");
     if (pass !== repass) return alert("Passwords do not match.");
 
     auth.createUserWithEmailAndPassword(email, pass)
@@ -126,7 +118,7 @@
         return db.collection("users").doc(res.user.uid).set({
           fullName: name,
           email: email,
-          role: role,
+          role: "user", // Default role
           uid: res.user.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -146,7 +138,7 @@
       })
       .then(doc => {
         const data = doc.data();
-        showWelcome(data.role, data.fullName);
+        showWelcome(data.fullName);
       })
       .catch(err => alert("Login Failed: " + err.message));
   }
