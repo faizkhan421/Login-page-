@@ -1,56 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Page</title>
+  <meta charset="UTF-8">
+  <title>Login & Sign Up Page</title>
   <style>
     body {
+      margin: 0;
+      font-family: Arial;
       background-color: skyblue;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
     }
-    .login-box {
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 60px auto;
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-    .login-box h2 {
-      margin-bottom: 20px;
+    h2 {
       text-align: center;
     }
-    .login-box input {
-      width: 100%;
+    input {
+      width: 90%;
       padding: 10px;
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    .login-box button {
+    button {
       width: 100%;
       padding: 10px;
-      background-color: green;
+      background: green;
       color: white;
       border: none;
-      font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
     }
-    .login-box button:hover {
-      background-color: darkgreen;
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .switch a {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
+
+<div class="container">
+  <div id="loginForm">
     <h2>Login</h2>
-    <input type="text" placeholder="Username" required />
-    <input type="password" placeholder="Password" required />
+    <input type="email" placeholder="Email" required><br>
+    <input type="password" placeholder="Password" required><br>
     <button>Login</button>
+    <div class="switch">
+      Don't have an account? <a onclick="showSignUp()">Sign Up</a>
+    </div>
   </div>
+
+  <div id="signupForm" class="hidden">
+    <h2>Sign Up</h2>
+    <input type="text" placeholder="Full Name" required><br>
+    <input type="email" placeholder="Email" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <button>Sign Up</button>
+    <div class="switch">
+      Already have an account? <a onclick="showLogin()">Login</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showSignUp() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.remove('hidden');
+  }
+  function showLogin() {
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+  }
+</script>
+
 </body>
 </html>
