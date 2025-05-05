@@ -1,126 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShortXurl Auth</title>
+  <meta charset="UTF-8">
+  <title>Login/Signup</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
   <style>
     body {
-      background-color: skyblue;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
-    .container {
+    .auth-box {
       background: white;
-      padding: 20px 30px;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
       width: 300px;
     }
-    .container h2 {
+    .auth-box h2 {
       text-align: center;
       margin-bottom: 20px;
     }
-    input[type="email"], input[type="password"], input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin: 8px 0;
-      box-sizing: border-box;
-    }
-    button {
+    .auth-box input {
       width: 100%;
       padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .auth-box button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-btn {
       background-color: green;
       color: white;
-      border: none;
+    }
+    .signup-btn {
+      background-color: #007BFF;
+      color: white;
+    }
+    .message {
+      text-align: center;
       margin-top: 10px;
-      cursor: pointer;
-    }
-    .eye {
-      float: right;
-      margin-top: -28px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    label {
-      font-size: 14px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>ShortXurl - Faizan Saifi</h2>
-    <div id="signup-section">
-      <input type="email" id="signup-email" placeholder="Email">
-      <input type="password" id="signup-password" placeholder="Password">
-      <span class="eye" onclick="toggleVisibility('signup-password')">👁️</span>
-      <input type="password" id="signup-repassword" placeholder="Re-enter Password">
-      <label><input type="checkbox" id="signup-agree"> I agree to Terms & Privacy</label>
-      <button onclick="signup()">Sign Up</button>
-    </div>
-
-    <hr />
-
-    <div id="login-section">
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
-      <span class="eye" onclick="toggleVisibility('login-password')">👁️</span>
-      <label><input type="checkbox" id="remember-me"> Remember me</label>
-      <button onclick="login()">Login</button>
-    </div>
+  <div class="auth-box">
+    <h2>Welcome</h2>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button class="login-btn" onclick="login()">Login</button>
+    <button class="signup-btn" onclick="signup()">Sign Up</button>
+    <div class="message" id="message"></div>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-
   <script>
-    // 🔥 PASTE your own Firebase config here:
+    // Replace with your Firebase config
     const firebaseConfig = {
-      apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-      authDomain: "http://shortxurl-c17c1.firebaseapp.com",
-      projectId: "shortxurl-c17c1",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "709834272600",
-      appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-      measurementId: "G-M0ZNWXTFTE"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      appId: "YOUR_APP_ID"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    function toggleVisibility(id) {
-      const field = document.getElementById(id);
-      field.type = field.type === "password" ? "text" : "password";
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("message").innerText = "Login successful!";
+        })
+        .catch(error => {
+          document.getElementById("message").innerText = error.message;
+        });
     }
 
     function signup() {
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-      const repass = document.getElementById("signup-repassword").value;
-      const agree = document.getElementById("signup-agree").checked;
-
-      if (!agree) return alert("Please agree to terms.");
-      if (password !== repass) return alert("Passwords do not match.");
-
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
       auth.createUserWithEmailAndPassword(email, password)
-        .then(user => alert("Sign-up successful!"))
-        .catch(error => alert(error.message));
-    }
-
-    function login() {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-      const remember = document.getElementById("remember-me").checked;
-
-      if (!remember) return alert("Please check Remember me to login.");
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(user => alert("Login successful!"))
-        .catch(error => alert(error.message));
+        .then(() => {
+          document.getElementById("message").innerText = "Signup successful!";
+        })
+        .catch(error => {
+          document.getElementById("message").innerText = error.message;
+        });
     }
   </script>
 </body>
-        </html>
+</html>
