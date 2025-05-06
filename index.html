@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login & Sign Up</title>
+  <meta charset="UTF-8" />
+  <title>ShortXurl - Login/Signup</title>
   <style>
     body {
       margin: 0;
@@ -20,22 +20,20 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
     h2 { text-align: center; }
-    input {
+    input, button {
       width: 90%;
       padding: 10px;
-      margin: 10px 0;
+      margin: 10px auto;
+      display: block;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
     button {
-      width: 100%;
-      padding: 10px;
       background: green;
       color: white;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
       font-size: 16px;
+      cursor: pointer;
     }
     .switch, .forgot-password {
       text-align: center;
@@ -47,35 +45,24 @@
       text-decoration: underline;
     }
     .checkbox-container {
-      margin: 10px 0;
       font-size: 14px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
     }
     .checkbox-container input {
       width: auto;
       margin-right: 5px;
     }
     .hidden { display: none; }
+    .dashboard {
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
     #logoutBtn {
-      background-color: red;
-      margin-top: 20px;
-    }
-    #passwordStrength, #capsWarning {
-      font-size: 13px;
-      color: red;
-    }
-    .dark-mode {
-      background-color: #121212;
-      color: #ffffff;
-    }
-    .dark-mode .container {
-      background-color: #1e1e1e;
-      color: #fff;
-    }
-    .google-btn {
-      background-color: #4285F4;
-      color: white;
-      font-weight: bold;
-      margin-top: 10px;
+      background: red;
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -84,16 +71,13 @@
 </head>
 <body>
 <div class="container">
-  <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  
   <div id="loginForm">
     <h2>Login</h2>
-    <input type="email" placeholder="Email" id="loginEmail"><br>
-    <input type="password" placeholder="Password" id="loginPassword" onkeyup="detectCapsLock(event)"><br>
-    <div id="capsWarning"></div>
+    <input type="email" placeholder="Email" id="loginEmail">
+    <input type="password" placeholder="Password" id="loginPassword">
     <div class="checkbox-container">
       <input type="checkbox" id="rememberMe">
-      <label for="rememberMe">Remember me</label>
+      <label for="rememberMe">Remember me (Required)</label>
     </div>
     <button onclick="loginUser()">Login</button>
     <div class="forgot-password">
@@ -102,19 +86,17 @@
     <div class="switch">
       Don't have an account? <a onclick="showSignUp()">Sign Up</a>
     </div>
-    <button class="google-btn" onclick="googleSignIn()">Sign in with Google</button>
   </div>
 
   <div id="signupForm" class="hidden">
     <h2>Sign Up</h2>
-    <input type="text" placeholder="Full Name" id="signupName"><br>
-    <input type="email" placeholder="Email" id="signupEmail"><br>
-    <input type="password" placeholder="Password" id="signupPassword" oninput="checkPasswordStrength(this.value)"><br>
-    <div id="passwordStrength"></div>
-    <input type="password" placeholder="Re-enter Password" id="signupRePassword"><br>
+    <input type="text" placeholder="Full Name" id="signupName">
+    <input type="email" placeholder="Email" id="signupEmail">
+    <input type="password" placeholder="Password" id="signupPassword">
+    <input type="password" placeholder="Re-enter Password" id="signupRePassword">
     <div class="checkbox-container">
       <input type="checkbox" id="agree">
-      <label for="agree">I agree to the <a href="#">Terms</a> and <a href="#">Privacy</a></label>
+      <label for="agree">I agree to the <a href="#">Terms</a></label>
     </div>
     <button onclick="signupUser()">Sign Up</button>
     <div class="switch">
@@ -122,8 +104,13 @@
     </div>
   </div>
 
-  <div id="welcomeBox" class="hidden">
-    <h2 id="welcomeMsg">Welcome</h2>
+  <div id="dashboard" class="hidden">
+    <h2>Dashboard</h2>
+    <div class="dashboard">
+      <p><strong>Total Clicks:</strong> 0</p>
+      <p><strong>Total Earnings:</strong> ₹0.00</p>
+      <p><strong>Country-wise Clicks:</strong> India: 0</p>
+    </div>
     <button id="logoutBtn">Logout</button>
   </div>
 </div>
@@ -142,10 +129,6 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-  }
-
   function showSignUp() {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('signupForm').classList.remove('hidden');
@@ -156,25 +139,10 @@
     document.getElementById('loginForm').classList.remove('hidden');
   }
 
-  function showWelcome(name) {
+  function showDashboard() {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('signupForm').classList.add('hidden');
-    document.getElementById('welcomeBox').classList.remove('hidden');
-    document.getElementById('welcomeMsg').innerText = `Welcome ${name}`;
-  }
-
-  function checkPasswordStrength(password) {
-    const strengthText = document.getElementById('passwordStrength');
-    let strength = 'Weak';
-    if (password.length >= 8) strength = 'Medium';
-    if (/[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) strength = 'Strong';
-    strengthText.textContent = `Strength: ${strength}`;
-  }
-
-  function detectCapsLock(event) {
-    const warning = document.getElementById('capsWarning');
-    const isCaps = event.getModifierState && event.getModifierState('CapsLock');
-    warning.textContent = isCaps ? 'Caps Lock is ON' : '';
+    document.getElementById('dashboard').classList.remove('hidden');
   }
 
   function signupUser() {
@@ -184,7 +152,7 @@
     const repass = document.getElementById('signupRePassword').value;
     const agree = document.getElementById('agree').checked;
 
-    if (!agree) return alert("You must agree to the Terms.");
+    if (!agree) return alert("You must agree to the terms.");
     if (pass !== repass) return alert("Passwords do not match.");
 
     auth.createUserWithEmailAndPassword(email, pass)
@@ -192,7 +160,6 @@
         return db.collection("users").doc(res.user.uid).set({
           fullName: name,
           email: email,
-          role: "user",
           uid: res.user.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -207,11 +174,13 @@
   function loginUser() {
     const email = document.getElementById('loginEmail').value;
     const pass = document.getElementById('loginPassword').value;
+    const remember = document.getElementById('rememberMe').checked;
+
+    if (!remember) return alert("Please check 'Remember me' to proceed.");
+
     auth.signInWithEmailAndPassword(email, pass)
-      .then(res => db.collection("users").doc(res.user.uid).get())
-      .then(doc => {
-        const data = doc.data();
-        showWelcome(data.fullName);
+      .then(() => {
+        showDashboard();
       })
       .catch(err => alert("Login Failed: " + err.message));
   }
@@ -224,16 +193,6 @@
       .catch(error => alert(error.message));
   }
 
-  function googleSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then(result => {
-        const user = result.user;
-        alert(`Welcome ${user.displayName}`);
-      })
-      .catch(error => alert(error.message));
-  }
-
   document.getElementById("logoutBtn").addEventListener("click", () => {
     auth.signOut().then(() => {
       alert("Logged out");
@@ -241,6 +200,5 @@
     });
   });
 </script>
-
 </body>
 </html>
