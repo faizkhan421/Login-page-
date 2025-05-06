@@ -26,7 +26,6 @@
     .hidden { display: none; }
     #logoutBtn { background-color: red; margin-top: 20px; }
   </style>
-
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -74,12 +73,12 @@
   // Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-  authDomain: "shortxurl-c17c1.firebaseapp.com",
-  projectId: "shortxurl-c17c1",
-  storageBucket: "shortxurl-c17c1.firebasestorage.app",
-  messagingSenderId: "709834272600",
-  appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-  measurementId: "G-M0ZNWXTFTE"
+    authDomain: "shortxurl-c17c1.firebaseapp.com",
+    projectId: "shortxurl-c17c1",
+    storageBucket: "shortxurl-c17c1.appspot.com",
+    messagingSenderId: "709834272600",
+    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
+    measurementId: "G-M0ZNWXTFTE"
   };
 
   firebase.initializeApp(firebaseConfig);
@@ -119,13 +118,16 @@
         return db.collection("users").doc(res.user.uid).set({
           fullName: name,
           email: email,
-          role: "user", // Default role
+          role: "user",
           uid: res.user.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       })
-      .then(() => alert("Signup successful. Please login."))
-      .catch(err => alert(err.message));
+      .then(() => {
+        alert("Signup successful. Please login.");
+        showLogin();  // Redirects to login form
+      })
+      .catch(err => alert("Signup Error: " + err.message));
   }
 
   // Login
