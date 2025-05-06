@@ -1,19 +1,20 @@
-<!-- dashboard.html --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShortXurl Dashboard</title>
+  <meta charset="UTF-8" />
+  <title>ShortXurl - Dashboard Pages</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
       --bg: #f4f4f4;
       --text: #000;
       --sidebar: #fff;
+      --card: #fff;
     }
     .dark-mode {
       --bg: #121212;
       --text: #fff;
       --sidebar: #1e1e1e;
+      --card: #2b2b2b;
     }
     body {
       margin: 0;
@@ -30,10 +31,6 @@
       padding: 20px 10px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 100;
     }
     .sidebar h2 {
       text-align: center;
@@ -55,9 +52,9 @@
       margin-right: 10px;
     }
     .main {
-      margin-left: 220px;
-      flex: 1;
+      margin-left: 240px;
       padding: 20px;
+      flex: 1;
     }
     .topbar {
       display: flex;
@@ -67,52 +64,28 @@
     }
     .dark-toggle {
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
     }
-    .shorten-box input {
-      width: 80%;
-      padding: 10px;
-      margin-right: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .shorten-box button {
-      padding: 10px 14px;
-      background: crimson;
-      border: none;
-      color: white;
-      border-radius: 5px;
-    }
-    .stat-box {
-      margin-top: 30px;
-    }
-    .stat {
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-    .box-grid {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .grid-box {
-      flex: 1;
-      background: #fff;
-      padding: 20px;
+    .card {
+      background: var(--card);
       border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-    select {
-      margin-top: 20px;
+    .card h3 {
+      margin-top: 0;
+    }
+    .link-item, .referral-item, .tool-item, .payment-item {
+      margin-bottom: 10px;
       padding: 10px;
+      background: var(--sidebar);
       border-radius: 5px;
-      border: 1px solid #ccc;
     }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 </head>
-<body><div class="sidebar">
+<body>
+<div class="sidebar">
   <h2>ShortXurl</h2>
   <a href="#"><i class="fas fa-home"></i> Dashboard</a>
   <a href="#"><i class="fas fa-link"></i> Manage Links</a>
@@ -121,71 +94,44 @@
   <a href="#"><i class="fas fa-users"></i> Referrals</a>
   <a href="#"><i class="fas fa-cog"></i> Settings</a>
   <a href="#"><i class="fas fa-headset"></i> Support</a>
-  <a href="#" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-</div><div class="main">
-  <div class="topbar">
-    <h2>Welcome to Dashboard</h2>
-    <span class="dark-toggle" onclick="toggleDarkMode()">🌓</span>
-  </div>  <div class="shorten-box">
-    <input type="text" placeholder="Paste your URL to shorten">
-    <button>Shorten</button>
-  </div>  <div class="stat-box">
-    <div class="stat"><i class="fas fa-clock"></i> Time: <strong>Today</strong></div>
-    <div class="stat"><i class="fas fa-eye"></i> Total Views: <strong>3,400</strong></div>
-    <div class="stat"><i class="fas fa-money-bill"></i> Earnings: <strong>$12.50</strong></div>
-    <div class="stat"><i class="fas fa-user-plus"></i> Referrals: <strong>10</strong></div>
-    <div class="stat"><i class="fas fa-chart-line"></i> Avg. CPM: <strong>$3.67</strong></div><select>
-  <option>May 2025</option>
-  <option>April 2025</option>
-  <option>March 2025</option>
-</select>
-
-<div class="box-grid">
-  <div class="grid-box">
-    <h3>Views</h3>
-    <p>3,400</p>
-  </div>
-  <div class="grid-box">
-    <h3>Earnings</h3>
-    <p>$12.50</p>
-  </div>
-  <div class="grid-box">
-    <h3>Referrals</h3>
-    <p>10</p>
-  </div>
-  <div class="grid-box">
-    <h3>Avg. CPM</h3>
-    <p>$3.67</p>
-  </div>
 </div>
-
+<div class="main">
+  <div class="topbar">
+    <h2>Manage Links</h2>
+    <div class="dark-toggle" onclick="toggleDarkMode()">🌓</div>
+  </div>
+  <div class="card">
+    <h3>Your Shortened Links</h3>
+    <div class="link-item">https://shortxurl.in/abc123 <button>Edit</button> <button>Delete</button></div>
+    <div class="link-item">https://shortxurl.in/xyz789 <button>Edit</button> <button>Delete</button></div>
+  </div>  <div class="topbar">
+    <h2>Payment</h2>
+  </div>
+  <div class="card">
+    <h3>Payment Summary</h3>
+    <div class="payment-item">Total Earned: ₹500</div>
+    <div class="payment-item">Last Payment: ₹200 on 05-May-2025</div>
+    <div class="payment-item">Payment Method: UPI (xxxx1234@upi)</div>
+  </div>  <div class="topbar">
+    <h2>Tools</h2>
+  </div>
+  <div class="card">
+    <h3>Available Tools</h3>
+    <div class="tool-item">🔧 QR Code Generator</div>
+    <div class="tool-item">📊 Traffic Analytics</div>
+    <div class="tool-item">🔍 URL Preview Tool</div>
+  </div>  <div class="topbar">
+    <h2>Referrals</h2>
+  </div>
+  <div class="card">
+    <h3>Your Referral Stats</h3>
+    <div class="referral-item">Referral Link: https://shortxurl.in/ref/123</div>
+    <div class="referral-item">Total Referrals: 34</div>
+    <div class="referral-item">Earnings from Referrals: ₹150</div>
   </div>
 </div><script>
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  function logoutUser() {
-    auth.signOut().then(() => {
-      window.location.href = "login.html";
-    });
-  }
-
   function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
   }
-
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = "login.html";
-    }
-  });
 </script></body>
 </html>
