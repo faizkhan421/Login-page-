@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Login & Sign Up</title>
@@ -10,28 +11,72 @@
       transition: background 0.3s, color 0.3s;
     }
     .container {
-      width: 100%; max-width: 400px; margin: 60px auto;
-      background: white; padding: 30px; border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
     h2 { text-align: center; }
     input {
-      width: 90%; padding: 10px; margin: 10px 0;
-      border: 1px solid #ccc; border-radius: 5px;
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
-      width: 100%; padding: 10px; background: green; color: white;
-      border: none; border-radius: 5px; cursor: pointer; font-size: 16px;
+      width: 100%;
+      padding: 10px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
     }
-    .switch, .forgot-password { text-align: center; margin-top: 15px; }
-    .switch a, .forgot-password a { color: blue; cursor: pointer; text-decoration: underline; }
-    .checkbox-container { margin: 10px 0; font-size: 14px; }
-    .checkbox-container input { width: auto; margin-right: 5px; }
+    .switch, .forgot-password {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .switch a, .forgot-password a {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .checkbox-container {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .checkbox-container input {
+      width: auto;
+      margin-right: 5px;
+    }
     .hidden { display: none; }
-    #logoutBtn { background-color: red; margin-top: 20px; }
-    #passwordStrength, #capsWarning { font-size: 13px; color: red; }
-    .dark-mode { background-color: #121212; color: #ffffff; }
-    .dark-mode .container { background-color: #1e1e1e; color: #fff; }
+    #logoutBtn {
+      background-color: red;
+      margin-top: 20px;
+    }
+    #passwordStrength, #capsWarning {
+      font-size: 13px;
+      color: red;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .dark-mode .container {
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+    .google-btn {
+      background-color: #4285F4;
+      color: white;
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -40,6 +85,7 @@
 <body>
 <div class="container">
   <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  
   <div id="loginForm">
     <h2>Login</h2>
     <input type="email" placeholder="Email" id="loginEmail"><br>
@@ -56,8 +102,10 @@
     <div class="switch">
       Don't have an account? <a onclick="showSignUp()">Sign Up</a>
     </div>
-    <button onclick="googleSignIn()">Sign in with Google</button>
-  </div>  <div id="signupForm" class="hidden">
+    <button class="google-btn" onclick="googleSignIn()">Sign in with Google</button>
+  </div>
+
+  <div id="signupForm" class="hidden">
     <h2>Sign Up</h2>
     <input type="text" placeholder="Full Name" id="signupName"><br>
     <input type="email" placeholder="Email" id="signupEmail"><br>
@@ -72,11 +120,14 @@
     <div class="switch">
       Already have an account? <a onclick="showLogin()">Login</a>
     </div>
-  </div>  <div id="welcomeBox" class="hidden">
+  </div>
+
+  <div id="welcomeBox" class="hidden">
     <h2 id="welcomeMsg">Welcome</h2>
     <button id="logoutBtn">Logout</button>
   </div>
 </div>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
@@ -89,48 +140,107 @@
   };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
-  const db = firebase.firestore();function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
+  const db = firebase.firestore();
 
-function showSignUp() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('signupForm').classList.remove('hidden'); }
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
 
-function showLogin() { document.getElementById('signupForm').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
+  function showSignUp() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.remove('hidden');
+  }
 
-function showWelcome(name) { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('signupForm').classList.add('hidden'); document.getElementById('welcomeBox').classList.remove('hidden'); document.getElementById('welcomeMsg').innerText = Welcome ${name}; }
+  function showLogin() {
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+  }
 
-function checkPasswordStrength(password) { const strengthText = document.getElementById('passwordStrength'); let strength = 'Weak'; if (password.length >= 8) strength = 'Medium'; if (/[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) strength = 'Strong'; strengthText.textContent = Strength: ${strength}; }
+  function showWelcome(name) {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('signupForm').classList.add('hidden');
+    document.getElementById('welcomeBox').classList.remove('hidden');
+    document.getElementById('welcomeMsg').innerText = `Welcome ${name}`;
+  }
 
-function detectCapsLock(event) { const warning = document.getElementById('capsWarning'); const isCaps = event.getModifierState && event.getModifierState('CapsLock'); warning.textContent = isCaps ? 'Caps Lock is ON' : ''; }
+  function checkPasswordStrength(password) {
+    const strengthText = document.getElementById('passwordStrength');
+    let strength = 'Weak';
+    if (password.length >= 8) strength = 'Medium';
+    if (/[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) strength = 'Strong';
+    strengthText.textContent = `Strength: ${strength}`;
+  }
 
-function signupUser() { const name = document.getElementById('signupName').value; const email = document.getElementById('signupEmail').value; const pass = document.getElementById('signupPassword').value; const repass = document.getElementById('signupRePassword').value; const agree = document.getElementById('agree').checked;
+  function detectCapsLock(event) {
+    const warning = document.getElementById('capsWarning');
+    const isCaps = event.getModifierState && event.getModifierState('CapsLock');
+    warning.textContent = isCaps ? 'Caps Lock is ON' : '';
+  }
 
-if (!agree) return alert("You must agree to the Terms.");
-if (pass !== repass) return alert("Passwords do not match.");
+  function signupUser() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const pass = document.getElementById('signupPassword').value;
+    const repass = document.getElementById('signupRePassword').value;
+    const agree = document.getElementById('agree').checked;
 
-auth.createUserWithEmailAndPassword(email, pass)
-  .then(res => {
-    return db.collection("users").doc(res.user.uid).set({
-      fullName: name,
-      email: email,
-      role: "user",
-      uid: res.user.uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    if (!agree) return alert("You must agree to the Terms.");
+    if (pass !== repass) return alert("Passwords do not match.");
+
+    auth.createUserWithEmailAndPassword(email, pass)
+      .then(res => {
+        return db.collection("users").doc(res.user.uid).set({
+          fullName: name,
+          email: email,
+          role: "user",
+          uid: res.user.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      })
+      .then(() => {
+        alert("Signup successful. Please login.");
+        showLogin();
+      })
+      .catch(err => alert("Signup Error: " + err.message));
+  }
+
+  function loginUser() {
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPassword').value;
+    auth.signInWithEmailAndPassword(email, pass)
+      .then(res => db.collection("users").doc(res.user.uid).get())
+      .then(doc => {
+        const data = doc.data();
+        showWelcome(data.fullName);
+      })
+      .catch(err => alert("Login Failed: " + err.message));
+  }
+
+  function forgotPassword() {
+    const email = document.getElementById('loginEmail').value;
+    if (!email) return alert('Please enter your email.');
+    auth.sendPasswordResetEmail(email)
+      .then(() => alert('Password reset email sent.'))
+      .catch(error => alert(error.message));
+  }
+
+  function googleSignIn() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(result => {
+        const user = result.user;
+        alert(`Welcome ${user.displayName}`);
+      })
+      .catch(error => alert(error.message));
+  }
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    auth.signOut().then(() => {
+      alert("Logged out");
+      location.reload();
     });
-  })
-  .then(() => {
-    alert("Signup successful. Please login.");
-    showLogin();
-  })
-  .catch(err => alert("Signup Error: " + err.message));
-
-}
-
-function loginUser() { const email = document.getElementById('loginEmail').value; const pass = document.getElementById('loginPassword').value; auth.signInWithEmailAndPassword(email, pass) .then(res => db.collection("users").doc(res.user.uid).get()) .then(doc => { const data = doc.data(); showWelcome(data.fullName); }) .catch(err => alert("Login Failed: " + err.message)); }
-
-function forgotPassword() { const email = document.getElementById('loginEmail').value; if (!email) return alert('Please enter your email.'); auth.sendPasswordResetEmail(email) .then(() => alert('Password reset email sent.')) .catch(error => alert(error.message)); }
-
-function googleSignIn() { const provider = new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(provider) .then(result => { const user = result.user; alert(Welcome ${user.displayName}); }) .catch(error => alert(error.message)); }
-
-document.getElementById("logoutBtn").addEventListener("click", () => { auth.signOut().then(() => { alert("Logged out"); location.reload(); }); }); </script>
+  });
+</script>
 
 </body>
 </html>
