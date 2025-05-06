@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- dashboard.html --><!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>ShortXurl - Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShortXurl Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
@@ -19,7 +19,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       display: flex;
       transition: 0.3s;
     }
@@ -29,10 +29,11 @@
       height: 100vh;
       padding: 20px 10px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-    .sidebar.closed {
-      transform: translateX(-220px);
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
     }
     .sidebar h2 {
       text-align: center;
@@ -54,62 +55,64 @@
       margin-right: 10px;
     }
     .main {
+      margin-left: 220px;
       flex: 1;
       padding: 20px;
-      width: calc(100% - 220px);
-      transition: width 0.3s;
-    }
-    .main.closed {
-      width: 100%;
     }
     .topbar {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
     }
     .dark-toggle {
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
     }
-    button {
+    .shorten-box input {
+      width: 80%;
+      padding: 10px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .shorten-box button {
+      padding: 10px 14px;
       background: crimson;
-      color: #fff;
       border: none;
-      padding: 8px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .stats {
-      display: flex;
-      justify-content: space-between;
-      background: var(--sidebar);
-      padding: 15px;
+      color: white;
       border-radius: 5px;
     }
-    .stat-item {
-      text-align: center;
-      flex: 1;
+    .stat-box {
+      margin-top: 30px;
     }
-    .stat-item span {
-      display: block;
-      font-size: 18px;
+    .stat {
+      margin-bottom: 15px;
+      font-size: 16px;
     }
-    .stat-item p {
-      font-size: 14px;
-    }
-    .month-year {
+    .box-grid {
       display: flex;
-      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .grid-box {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    select {
       margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
   </style>
-
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 </head>
-<body>
-
-<div class="sidebar" id="sidebar">
+<body><div class="sidebar">
   <h2>ShortXurl</h2>
   <a href="#"><i class="fas fa-home"></i> Dashboard</a>
   <a href="#"><i class="fas fa-link"></i> Manage Links</a>
@@ -119,76 +122,59 @@
   <a href="#"><i class="fas fa-cog"></i> Settings</a>
   <a href="#"><i class="fas fa-headset"></i> Support</a>
   <a href="#" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-</div>
-
-<div class="main" id="main">
+</div><div class="main">
   <div class="topbar">
     <h2>Welcome to Dashboard</h2>
-    <div>
-      <span class="dark-toggle" onclick="toggleDarkMode()">🌓</span>
-      <button onclick="toggleSidebar()">☰</button>
-    </div>
-  </div>
-  
-  <div class="stats">
-    <div class="stat-item">
-      <span>Short Links</span>
-      <p>120</p>
-    </div>
-    <div class="stat-item">
-      <span>Timing</span>
-      <p>8:00 AM</p>
-    </div>
-    <div class="stat-item">
-      <span>Views</span>
-      <p>320</p>
-    </div>
-    <div class="stat-item">
-      <span>Earnings</span>
-      <p>$45.67</p>
-    </div>
-  </div>
+    <span class="dark-toggle" onclick="toggleDarkMode()">🌓</span>
+  </div>  <div class="shorten-box">
+    <input type="text" placeholder="Paste your URL to shorten">
+    <button>Shorten</button>
+  </div>  <div class="stat-box">
+    <div class="stat"><i class="fas fa-clock"></i> Time: <strong>Today</strong></div>
+    <div class="stat"><i class="fas fa-eye"></i> Total Views: <strong>3,400</strong></div>
+    <div class="stat"><i class="fas fa-money-bill"></i> Earnings: <strong>$12.50</strong></div>
+    <div class="stat"><i class="fas fa-user-plus"></i> Referrals: <strong>10</strong></div>
+    <div class="stat"><i class="fas fa-chart-line"></i> Avg. CPM: <strong>$3.67</strong></div><select>
+  <option>May 2025</option>
+  <option>April 2025</option>
+  <option>March 2025</option>
+</select>
 
-  <div class="stats">
-    <div class="stat-item">
-      <span>Refer Earn</span>
-      <p>$10.00</p>
-    </div>
-    <div class="stat-item">
-      <span>Average CPM</span>
-      <p>$5.50</p>
-    </div>
+<div class="box-grid">
+  <div class="grid-box">
+    <h3>Views</h3>
+    <p>3,400</p>
   </div>
-
-  <div class="month-year">
-    <div>
-      <label>Month</label>
-      <p>March 2025</p>
-    </div>
-    <div>
-      <label>Year</label>
-      <p>2025</p>
-    </div>
+  <div class="grid-box">
+    <h3>Earnings</h3>
+    <p>$12.50</p>
+  </div>
+  <div class="grid-box">
+    <h3>Referrals</h3>
+    <p>10</p>
+  </div>
+  <div class="grid-box">
+    <h3>Avg. CPM</h3>
+    <p>$3.67</p>
   </div>
 </div>
 
-<script>
+  </div>
+</div><script>
   const firebaseConfig = {
-    apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-    authDomain: "shortxurl-c17c1.firebaseapp.com",
-    projectId: "shortxurl-c17c1",
-    storageBucket: "shortxurl-c17c1.appspot.com",
-    messagingSenderId: "709834272600",
-    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-    measurementId: "G-M0ZNWXTFTE"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
   };
-
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
   function logoutUser() {
     auth.signOut().then(() => {
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     });
   }
 
@@ -196,19 +182,10 @@
     document.body.classList.toggle("dark-mode");
   }
 
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const main = document.getElementById('main');
-    sidebar.classList.toggle('closed');
-    main.classList.toggle('closed');
-  }
-
   auth.onAuthStateChanged(user => {
     if (!user) {
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
   });
-</script>
-
-</body>
+</script></body>
 </html>
