@@ -29,6 +29,10 @@
       height: 100vh;
       padding: 20px 10px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.closed {
+      transform: translateX(-220px);
     }
     .sidebar h2 {
       text-align: center;
@@ -52,6 +56,11 @@
     .main {
       flex: 1;
       padding: 20px;
+      width: calc(100% - 220px);
+      transition: width 0.3s;
+    }
+    .main.closed {
+      width: 100%;
     }
     .topbar {
       display: flex;
@@ -70,6 +79,29 @@
       border-radius: 4px;
       cursor: pointer;
     }
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      background: var(--sidebar);
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .stat-item {
+      text-align: center;
+      flex: 1;
+    }
+    .stat-item span {
+      display: block;
+      font-size: 18px;
+    }
+    .stat-item p {
+      font-size: 14px;
+    }
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
   </style>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -77,7 +109,7 @@
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
   <h2>ShortXurl</h2>
   <a href="#"><i class="fas fa-home"></i> Dashboard</a>
   <a href="#"><i class="fas fa-link"></i> Manage Links</a>
@@ -89,15 +121,54 @@
   <a href="#" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
-<div class="main">
+<div class="main" id="main">
   <div class="topbar">
     <h2>Welcome to Dashboard</h2>
     <div>
       <span class="dark-toggle" onclick="toggleDarkMode()">🌓</span>
+      <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-  <div id="content">
-    <p>This is your dashboard. Add more stats here.</p>
+  
+  <div class="stats">
+    <div class="stat-item">
+      <span>Short Links</span>
+      <p>120</p>
+    </div>
+    <div class="stat-item">
+      <span>Timing</span>
+      <p>8:00 AM</p>
+    </div>
+    <div class="stat-item">
+      <span>Views</span>
+      <p>320</p>
+    </div>
+    <div class="stat-item">
+      <span>Earnings</span>
+      <p>$45.67</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item">
+      <span>Refer Earn</span>
+      <p>$10.00</p>
+    </div>
+    <div class="stat-item">
+      <span>Average CPM</span>
+      <p>$5.50</p>
+    </div>
+  </div>
+
+  <div class="month-year">
+    <div>
+      <label>Month</label>
+      <p>March 2025</p>
+    </div>
+    <div>
+      <label>Year</label>
+      <p>2025</p>
+    </div>
   </div>
 </div>
 
@@ -123,6 +194,13 @@
 
   function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    sidebar.classList.toggle('closed');
+    main.classList.toggle('closed');
   }
 
   auth.onAuthStateChanged(user => {
