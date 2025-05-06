@@ -15,7 +15,6 @@
       --text-color: white;
       --box-bg: #1e1e1e;
     }
-
     body {
       margin: 0;
       font-family: Arial;
@@ -23,7 +22,6 @@
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
     }
-
     .container {
       width: 100%;
       max-width: 400px;
@@ -33,7 +31,6 @@
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-
     h2 { text-align: center; }
     input, button {
       width: 90%;
@@ -50,7 +47,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     .switch, .forgot-password {
       text-align: center;
       margin-top: 15px;
@@ -60,7 +56,6 @@
       cursor: pointer;
       text-decoration: underline;
     }
-
     .checkbox-container {
       font-size: 14px;
       margin: 10px 0;
@@ -71,22 +66,18 @@
       width: auto;
       margin-right: 5px;
     }
-
     .hidden { display: none; }
-
     .sidebar-toggle {
-      display: flex;
+      display: none; /* Initially hidden */
       align-items: center;
       padding: 10px;
       background: var(--box-bg);
       border-bottom: 1px solid #ccc;
     }
-
     .menu-icon {
       font-size: 24px;
       cursor: pointer;
     }
-
     .sidebar {
       width: 220px;
       background: var(--box-bg);
@@ -100,16 +91,13 @@
       padding-top: 60px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
-
     .sidebar.open {
       transform: translateX(0);
     }
-
     .sidebar ul {
       list-style: none;
       padding: 0;
     }
-
     .sidebar li {
       padding: 15px 20px;
       border-bottom: 1px solid #ccc;
@@ -117,27 +105,28 @@
       display: flex;
       align-items: center;
     }
-
     .sidebar li i {
       margin-right: 10px;
     }
-
     .dark-toggle {
       position: fixed;
       top: 10px;
       right: 10px;
       cursor: pointer;
       font-size: 20px;
+      display: none; /* Initially hidden */
     }
   </style>
+
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-<div class="dark-toggle" onclick="toggleDarkMode()">🌓</div>
 
-<div class="sidebar" id="sidebar">
+<div class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()">🌓</div>
+
+<div class="sidebar hidden" id="sidebar">
   <ul>
     <li><i class="fas fa-chart-line"></i> Dashboard</li>
     <li><i class="fas fa-link"></i> Manage Links</li>
@@ -150,7 +139,7 @@
   </ul>
 </div>
 
-<div class="sidebar-toggle hidden" id="menuToggle">
+<div class="sidebar-toggle" id="menuToggle">
   <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
 </div>
 
@@ -199,6 +188,7 @@
     appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
     measurementId: "G-M0ZNWXTFTE"
   };
+
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
@@ -257,7 +247,9 @@
     auth.signInWithEmailAndPassword(email, pass)
       .then(() => {
         document.getElementById("mainBox").classList.add("hidden");
-        document.getElementById("menuToggle").classList.remove("hidden");
+        document.getElementById("sidebar").classList.remove("hidden");
+        document.getElementById("menuToggle").style.display = "flex";
+        document.getElementById("darkToggle").style.display = "block";
       })
       .catch(err => alert("Login Failed: " + err.message));
   }
