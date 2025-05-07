@@ -1,137 +1,116 @@
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ShortXurl - Dashboard Pages</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShortXurl Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     :root {
       --bg: #f4f4f4;
-      --text: #000;
-      --sidebar: #fff;
-      --card: #fff;
-    }
-    .dark-mode {
-      --bg: #121212;
-      --text: #fff;
-      --sidebar: #1e1e1e;
-      --card: #2b2b2b;
+      --sidebar-bg: #1e1e2f;
+      --text: #333;
+      --primary: #00b894;
     }
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
       font-family: Arial, sans-serif;
-      display: flex;
-      transition: 0.3s;
+      background: var(--bg);
     }
     .sidebar {
-      width: 220px;
-      background: var(--sidebar);
-      height: 100vh;
-      padding: 20px 10px;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background: var(--sidebar-bg);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
     }
     .sidebar h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .sidebar a {
+      padding: 15px;
+      text-decoration: none;
+      color: white;
       display: flex;
       align-items: center;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: var(--text);
-      border-radius: 5px;
+      gap: 10px;
     }
     .sidebar a:hover {
-      background: #ddd;
-    }
-    .sidebar a i {
-      margin-right: 10px;
+      background: #2d2d44;
     }
     .main {
-      margin-left: 240px;
+      margin-left: 250px;
       padding: 20px;
-      flex: 1;
-    }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .dark-toggle {
-      cursor: pointer;
-      font-size: 18px;
     }
     .card {
-      background: var(--card);
-      border-radius: 8px;
+      background: white;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .card h3 {
-      margin-top: 0;
+    .dark-mode {
+      --bg: #1e1e2f;
+      --sidebar-bg: #111;
+      --text: #eee;
+      background: var(--bg);
+      color: var(--text);
     }
-    .link-item, .referral-item, .tool-item, .payment-item {
-      margin-bottom: 10px;
-      padding: 10px;
-      background: var(--sidebar);
-      border-radius: 5px;
+    .dark-mode .card {
+      background: #2c2c3c;
+      color: white;
+    }
+    .toggle-dark {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-<div class="sidebar">
-  <h2>ShortXurl</h2>
-  <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-  <a href="#"><i class="fas fa-link"></i> Manage Links</a>
-  <a href="#"><i class="fas fa-wallet"></i> Payment</a>
-  <a href="#"><i class="fas fa-tools"></i> Tools</a>
-  <a href="#"><i class="fas fa-users"></i> Referrals</a>
-  <a href="#"><i class="fas fa-cog"></i> Settings</a>
-  <a href="#"><i class="fas fa-headset"></i> Support</a>
-</div>
-<div class="main">
-  <div class="topbar">
-    <h2>Manage Links</h2>
-    <div class="dark-toggle" onclick="toggleDarkMode()">🌓</div>
-  </div>
-  <div class="card">
-    <h3>Your Shortened Links</h3>
-    <div class="link-item">https://shortxurl.in/abc123 <button>Edit</button> <button>Delete</button></div>
-    <div class="link-item">https://shortxurl.in/xyz789 <button>Edit</button> <button>Delete</button></div>
-  </div>  <div class="topbar">
-    <h2>Payment</h2>
-  </div>
-  <div class="card">
-    <h3>Payment Summary</h3>
-    <div class="payment-item">Total Earned: ₹500</div>
-    <div class="payment-item">Last Payment: ₹200 on 05-May-2025</div>
-    <div class="payment-item">Payment Method: UPI (xxxx1234@upi)</div>
-  </div>  <div class="topbar">
-    <h2>Tools</h2>
-  </div>
-  <div class="card">
-    <h3>Available Tools</h3>
-    <div class="tool-item">🔧 QR Code Generator</div>
-    <div class="tool-item">📊 Traffic Analytics</div>
-    <div class="tool-item">🔍 URL Preview Tool</div>
-  </div>  <div class="topbar">
-    <h2>Referrals</h2>
-  </div>
-  <div class="card">
-    <h3>Your Referral Stats</h3>
-    <div class="referral-item">Referral Link: https://shortxurl.in/ref/123</div>
-    <div class="referral-item">Total Referrals: 34</div>
-    <div class="referral-item">Earnings from Referrals: ₹150</div>
-  </div>
-</div><script>
-  function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-  }
-</script></body>
+  <div class="sidebar">
+    <h2>ShortXurl</h2>
+    <a href="#"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a href="#"><i class="fas fa-link"></i> Manage Links</a>
+    <a href="#"><i class="fas fa-user-friends"></i> Referrals</a>
+    <a href="#"><i class="fas fa-wallet"></i> Payments</a>
+    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    <a href="#"><i class="fas fa-life-ring"></i> Support</a>
+    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>  <div class="main" id="dashboard">
+    <div class="toggle-dark" onclick="toggleDarkMode()">🌓</div>
+    <h1>Welcome to ShortXurl Dashboard</h1>
+    <div class="card">
+      <h3>Total Clicks: <span id="totalClicks">0</span></h3>
+      <h3>Total Earnings: <span id="totalEarnings">₹0.00</span></h3>
+      <h3>CPM: <span id="cpm">₹0.00</span></h3>
+    </div>
+    <div class="card">
+      <h3>Referral Link:</h3>
+      <input type="text" id="refLink" value="https://shortxurl.in/ref/yourcode" style="width: 100%;" readonly />
+    </div>
+    <div class="card">
+      <h3>Payment Request:</h3>
+      <button onclick="alert('Payment Requested!')">Request Payment</button>
+    </div>
+    <div class="card">
+      <h3>Support:</h3>
+      <textarea placeholder="Describe your issue..." style="width: 100%; height: 100px;"></textarea>
+      <br /><button onclick="alert('Support ticket submitted')">Submit</button>
+    </div>
+  </div>  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+    function logout() {
+      alert("Logging out...");
+      // Add Firebase signOut code here if integrated
+    }
+  </script></body>
 </html>
