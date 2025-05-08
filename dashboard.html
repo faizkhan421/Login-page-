@@ -10,6 +10,7 @@
       font-family: Arial, sans-serif;
       background: black;
       color: white;
+      transition: background 0.3s, color 0.3s;
     }
 
     /* Navbar */
@@ -72,6 +73,11 @@
       padding-top: 20px;
       position: sticky;
       top: 60px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
     }
 
     .sidebar a {
@@ -96,13 +102,37 @@
       height: 100%;
       border: none;
     }
+
+    /* Light mode */
+    .light-mode {
+      background: #f5f5f5;
+      color: black;
+    }
+
+    .light-mode .navbar,
+    .light-mode .sidebar {
+      background-color: #fff;
+    }
+
+    .light-mode .sidebar a {
+      color: black;
+      border-color: #ddd;
+    }
+
+    .light-mode .sidebar a:hover {
+      background-color: #eee;
+    }
+
+    .light-mode .center-icon i {
+      color: #0088cc;
+    }
   </style>
 </head>
 <body>
 
   <!-- Top Navbar -->
   <div class="navbar">
-    <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    <div class="menu-icon" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
     <div class="center-icon">
       <i class="fab fa-telegram-plane"></i>
       <span>Telegram</span>
@@ -116,7 +146,7 @@
   <!-- Main Content -->
   <div class="main">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <a href="#" onclick="loadPage('pages/home.html')"><i class="fas fa-home"></i> Dashboard</a>
       <a href="#" onclick="loadPage('pages/manage-links.html')"><i class="fas fa-link"></i> Manage Links</a>
       <a href="#" onclick="loadPage('pages/payment.html')"><i class="fas fa-wallet"></i> Payment</a>
@@ -136,8 +166,12 @@
       document.getElementById("pageFrame").src = page;
     }
 
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("hidden");
+    }
+
     function toggleDark() {
-      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("light-mode");
     }
   </script>
 
