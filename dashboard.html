@@ -101,12 +101,18 @@
     }
 
     .sidebar a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 15px 20px;
       color: white;
       text-decoration: none;
       border-bottom: 1px solid #333;
       white-space: nowrap;
+    }
+
+    .sidebar a i {
+      color: #00acee;
     }
 
     .sidebar a:hover {
@@ -147,6 +153,10 @@
     .light-mode .center-icon i {
       color: #0088cc;
     }
+
+    .light-mode .sidebar a i {
+      color: #0088cc;
+    }
   </style>
 </head>
 <body>
@@ -174,6 +184,7 @@
       <a href="#" onclick="loadPage('pages/settings.html')"><i class="fas fa-cog"></i> Settings</a>
       <a href="#" onclick="loadPage('pages/support.html')"><i class="fas fa-headset"></i> Support</a>
       <a href="#" onclick="loadPage('pages/tasks.html')"><i class="fas fa-tasks"></i> Tasks Earn</a>
+      <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="content">
@@ -196,6 +207,12 @@
       const icon = document.getElementById("themeIcon").querySelector('i');
       icon.classList.toggle("fa-moon");
       icon.classList.toggle("fa-sun");
+    }
+
+    function logout() {
+      alert("Logged out successfully!");
+      // Firebase signOut logic ya redirect logic yahan add kar sakte ho
+      // location.href = 'login.html';
     }
   </script>
 
