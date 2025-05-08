@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>ShortXurl Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
@@ -28,6 +27,11 @@
     .menu-icon {
       font-size: 24px;
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-icon:hover {
+      transform: rotate(90deg);
     }
 
     .center-icon {
@@ -55,6 +59,10 @@
       transition: transform 0.3s ease;
     }
 
+    .toggle-theme:hover {
+      transform: scale(1.1);
+    }
+
     .profile-pic {
       width: 30px;
       height: 30px;
@@ -77,24 +85,19 @@
       overflow: hidden;
     }
 
-    .sidebar.hidden {
-      width: 0;
-      padding: 0;
-    }
-
     .sidebar .header-title {
       text-align: center;
       font-size: 24px;
       font-weight: bold;
-      padding: 10px 0 0 0;
+      padding: 5px 10px 0;
       color: #00acee;
     }
 
-    .sidebar .subtitle {
-      font-size: 12px;
+    .sidebar .subtext {
       text-align: center;
+      font-size: 12px;
       color: #ccc;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .sidebar .balance-box {
@@ -116,29 +119,26 @@
       text-decoration: none;
       border-bottom: 1px solid #333;
       white-space: nowrap;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.3s ease;
     }
 
     .sidebar a i {
-      color: #00acee;
-      transition: transform 0.3s;
+      transition: color 0.3s ease;
     }
 
     .sidebar a:hover {
       background-color: #333;
-      color: #00acee;
     }
 
-    .sidebar a:hover i {
-      transform: scale(1.2);
-      animation: bounce 0.5s;
-    }
-
-    @keyframes bounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
+    /* Unique icon colors */
+    .sidebar a:nth-child(3) i { color: #4CAF50; }
+    .sidebar a:nth-child(4) i { color: #FF9800; }
+    .sidebar a:nth-child(5) i { color: #9C27B0; }
+    .sidebar a:nth-child(6) i { color: #00BCD4; }
+    .sidebar a:nth-child(7) i { color: #E91E63; }
+    .sidebar a:nth-child(8) i { color: #FF5722; }
+    .sidebar a:nth-child(9) i { color: #607D8B; }
+    .sidebar a:nth-child(10) i { color: #f44336; }
 
     .content {
       flex: 1;
@@ -167,44 +167,32 @@
       border-color: #ddd;
     }
 
-    .light-mode .sidebar a i {
-      color: #0088cc;
-    }
-
-    .light-mode .center-icon i {
-      color: #0088cc;
-    }
-
-    .light-mode .sidebar .balance-box {
+    .light-mode .sidebar .balance-box,
+    .light-mode .sidebar .subtext {
       color: #000;
     }
 
-    .light-mode .sidebar .balance-box i {
-      color: #0088cc;
-    }
-
+    /* Sidebar responsive & toggle */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
-        left: 0;
+        left: -220px;
         top: 60px;
         height: calc(100vh - 60px);
         z-index: 999;
-        background-color: #1a1a1a;
-        transform: translateX(-100%);
       }
 
-      .sidebar.visible {
-        transform: translateX(0);
-      }
-
-      .main {
-        flex-direction: column;
+      .sidebar.open {
+        left: 0;
       }
 
       .content {
         margin-left: 0;
       }
+    }
+
+    .sidebar.open {
+      width: 220px;
     }
   </style>
 </head>
@@ -224,8 +212,8 @@
 
   <div class="main">
     <div class="sidebar" id="sidebar">
-      <div class="header-title">ShortXurl</div>
-      <div class="subtitle">Sort link with tasks earn and earn money</div>
+      <div class="header-title">SHORTXURL</div>
+      <div class="subtext">SHORT LINK WITH TASKS EARN AND EARN MONEY</div>
       <div class="balance-box"><i class="fas fa-wallet"></i> ₹0.00</div>
       <a href="#" onclick="loadPage('pages/home.html')"><i class="fas fa-home"></i> Dashboard</a>
       <a href="#" onclick="loadPage('pages/manage-links.html')"><i class="fas fa-link"></i> Manage Links</a>
@@ -249,8 +237,7 @@
 
     function toggleSidebar() {
       const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("hidden");
-      sidebar.classList.toggle("visible");
+      sidebar.classList.toggle("open");
     }
 
     function toggleDark() {
@@ -262,7 +249,7 @@
 
     function logout() {
       alert("Logged out successfully!");
-      location.href = 'login.html'; // Login page par redirect
+      window.location.href = 'login.html';
     }
   </script>
 
