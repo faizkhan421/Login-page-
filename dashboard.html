@@ -13,7 +13,6 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Navbar */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -51,7 +50,8 @@
 
     .toggle-theme {
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
+      transition: transform 0.3s ease;
     }
 
     .profile-pic {
@@ -61,7 +61,6 @@
       background: gray;
     }
 
-    /* Layout */
     .main {
       display: flex;
       height: calc(100vh - 60px);
@@ -73,11 +72,13 @@
       padding-top: 20px;
       position: sticky;
       top: 60px;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      overflow: hidden;
     }
 
     .sidebar.hidden {
-      transform: translateX(-100%);
+      width: 0;
+      padding: 0;
     }
 
     .sidebar a {
@@ -86,6 +87,7 @@
       color: white;
       text-decoration: none;
       border-bottom: 1px solid #333;
+      white-space: nowrap;
     }
 
     .sidebar a:hover {
@@ -95,6 +97,7 @@
     .content {
       flex: 1;
       background-color: #121212;
+      transition: margin-left 0.3s ease;
     }
 
     iframe {
@@ -103,7 +106,6 @@
       border: none;
     }
 
-    /* Light mode */
     .light-mode {
       background: #f5f5f5;
       color: black;
@@ -130,7 +132,6 @@
 </head>
 <body>
 
-  <!-- Top Navbar -->
   <div class="navbar">
     <div class="menu-icon" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
     <div class="center-icon">
@@ -138,14 +139,12 @@
       <span>Telegram</span>
     </div>
     <div class="right-section">
-      <div class="toggle-theme" onclick="toggleDark()">&#9790;</div>
+      <div class="toggle-theme" onclick="toggleDark()" id="themeIcon"><i class="fas fa-moon"></i></div>
       <div class="profile-pic"></div>
     </div>
   </div>
 
-  <!-- Main Content -->
   <div class="main">
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <a href="#" onclick="loadPage('pages/home.html')"><i class="fas fa-home"></i> Dashboard</a>
       <a href="#" onclick="loadPage('pages/manage-links.html')"><i class="fas fa-link"></i> Manage Links</a>
@@ -155,7 +154,6 @@
       <a href="#" onclick="loadPage('pages/support.html')"><i class="fas fa-headset"></i> Support</a>
     </div>
 
-    <!-- Page Iframe -->
     <div class="content">
       <iframe id="pageFrame" src="pages/home.html"></iframe>
     </div>
@@ -167,11 +165,15 @@
     }
 
     function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("hidden");
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
     }
 
     function toggleDark() {
       document.body.classList.toggle("light-mode");
+      const icon = document.getElementById("themeIcon").querySelector('i');
+      icon.classList.toggle("fa-moon");
+      icon.classList.toggle("fa-sun");
     }
   </script>
 
