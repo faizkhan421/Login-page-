@@ -57,6 +57,7 @@
       height: 30px;
       border-radius: 50%;
       background: gray;
+      cursor: pointer;
     }
     .main {
       display: flex;
@@ -104,12 +105,8 @@
       white-space: nowrap;
       transition: background 0.3s ease;
     }
-    .sidebar a i {
-      transition: color 0.3s ease;
-    }
-    .sidebar a:hover {
-      background-color: #333;
-    }
+    .sidebar a i { transition: color 0.3s ease; }
+    .sidebar a:hover { background-color: #333; }
     .sidebar a:nth-child(3) i { color: #4CAF50; }
     .sidebar a:nth-child(4) i { color: #FF9800; }
     .sidebar a:nth-child(5) i { color: #9C27B0; }
@@ -156,6 +153,21 @@
       .content { margin-left: 0; }
     }
     .sidebar.open { width: 220px; }
+
+    /* Profile Modal */
+    #profileModal {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: #222;
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      z-index: 999;
+      color: white;
+      min-width: 180px;
+    }
   </style>
 </head>
 <body>
@@ -168,7 +180,7 @@
     </div>
     <div class="right-section">
       <div class="toggle-theme" onclick="toggleDark()" id="themeIcon"><i class="fas fa-moon"></i></div>
-      <div class="profile-pic"></div>
+      <div class="profile-pic" id="profilePic"></div>
     </div>
   </div>
 
@@ -191,21 +203,25 @@
     </div>
   </div>
 
+  <!-- Profile Modal -->
+  <div id="profileModal">
+    <p id="username">Username: </p>
+    <p id="memberSince">Member Since: </p>
+  </div>
+
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script>
-    // Replace this config with your actual Firebase project config
     const firebaseConfig = {
-          apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-    authDomain: "shortxurl-c17c1.firebaseapp.com",
-    projectId: "shortxurl-c17c1",
-    storageBucket: "shortxurl-c17c1.firebasestorage.app",
-    messagingSenderId: "709834272600",
-    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-    measurementId: "G-M0ZNWXTFTE"
+      apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
+      authDomain: "shortxurl-c17c1.firebaseapp.com",
+      projectId: "shortxurl-c17c1",
+      storageBucket: "shortxurl-c17c1.firebasestorage.app",
+      messagingSenderId: "709834272600",
+      appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
+      measurementId: "G-M0ZNWXTFTE"
     };
-
     firebase.initializeApp(firebaseConfig);
 
     function loadPage(page) {
@@ -213,8 +229,7 @@
     }
 
     function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("open");
+      document.getElementById("sidebar").classList.toggle("open");
     }
 
     function toggleDark() {
@@ -233,6 +248,27 @@
         alert("Logout failed!");
       });
     }
+
+    // Show profile modal on profile pic click
+    document.getElementById("profilePic").addEventListener("click", () => {
+      const modal = document.getElementById("profileModal");
+      const user = firebase.auth().currentUser;
+
+      if (user) {
+        document.getElementById("username").textContent = `Username: ${user.displayName || "N/A"}`;
+        document.getElementById("memberSince").textContent = `Member Since: ${new Date(user.metadata.creationTime).toDateString()}`;
+        modal.style.display = modal.style.display === "none" ? "block" : "none";
+      } else {
+        alert("User not logged in.");
+      }
+    });
+
+    // Hide modal if clicked outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#profilePic") && !e.target.closest("#profileModal")) {
+        document.getElementById("profileModal").style.display = "none";
+      }
+    });
   </script>
 
 </body>
