@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - ShortXurl</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       margin: 0;
@@ -10,16 +11,6 @@
       background-color: #121212;
       color: white;
       font-family: Arial, sans-serif;
-    }
-    .dashboard-box {
-      background: #1e1e1e;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-    h1 {
-      color: #00acee;
     }
     .stats {
       display: grid;
@@ -41,31 +32,106 @@
       font-size: 14px;
       color: #ccc;
     }
+
+    /* New Added Styles */
+    .section {
+      margin-bottom: 30px;
+    }
+    .short-link-box {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .short-link-box input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .short-link-box button {
+      padding: 10px 20px;
+      background-color: #00acee;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .wallet-section {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .wallet-box {
+      flex: 1;
+      min-width: 200px;
+      background: #252525;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wallet-box i {
+      font-size: 24px;
+      color: #00acee;
+    }
+    .wallet-box span {
+      font-size: 16px;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <div class="dashboard-box">
-    <h1>Welcome to ShortXurl</h1>
-    <p>Track your earnings, links, and performance at a glance.</p>
+
+  <!-- New Section Start -->
+  <div class="section">
+    <h2>Dashboard / Dashboard</h2>
+    <div class="short-link-box">
+      <h3>New Short Link / URL</h3>
+      <input type="text" placeholder="Your URL Here">
+      <button>Shorten</button>
+    </div>
+  </div>
+
+  <div class="wallet-section">
+    <div class="wallet-box">
+      <i class="fas fa-wallet"></i>
+      <span>Available Balance: ₹0.00</span>
+    </div>
+    <div class="wallet-box">
+      <i class="fas fa-money-bill-wave"></i>
+      <span>Money Wallet</span>
+    </div>
   </div>
 
   <div class="stats">
     <div class="stat">
-      <h2>₹0.00</h2>
-      <p>Today's Earnings</p>
-    </div>
-    <div class="stat">
+      <i class="fas fa-eye"></i>
       <h2>0</h2>
-      <p>Total Clicks</p>
+      <p>Total Views</p>
     </div>
     <div class="stat">
-      <h2>0</h2>
-      <p>Total Links</p>
-    </div>
-    <div class="stat">
+      <i class="fas fa-rupee-sign"></i>
       <h2>₹0.00</h2>
       <p>Total Earnings</p>
     </div>
+    <div class="stat">
+      <i class="fas fa-user-friends"></i>
+      <h2>₹0.00</h2>
+      <p>Referral Earnings</p>
+    </div>
+    <div class="stat">
+      <i class="fas fa-chart-line"></i>
+      <h2>₹0.00</h2>
+      <p>Average CPM</p>
+    </div>
   </div>
+  <!-- New Section End -->
+
 </body>
 </html>
