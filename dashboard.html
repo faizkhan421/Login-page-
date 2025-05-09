@@ -97,13 +97,13 @@
     .light-mode .navbar, .light-mode .sidebar { background-color: #fff; }
     .light-mode .sidebar a { color: black; border-color: #ddd; }
     .light-mode .sidebar .balance-box, .light-mode .sidebar .subtext { color: #000; }
-    .sidebar a.dashboard i { color: #007bff; } /* Blue */
-    .sidebar a.manage-links i { color: #28a745; } /* Green */
-    .sidebar a.payment i { color: #ffc107; } /* Gold */
-    .sidebar a.referrals i { color: #6f42c1; } /* Purple */
-    .sidebar a.settings i { color: #fd7e14; } /* Orange */
-    .sidebar a.support i { color: #20c997; } /* Teal */
-    .sidebar a.tasks-earn i { color: #dc3545; } /* Red */
+    .sidebar a.dashboard i { color: #007bff; }
+    .sidebar a.manage-links i { color: #28a745; }
+    .sidebar a.payment i { color: #ffc107; }
+    .sidebar a.referrals i { color: #6f42c1; }
+    .sidebar a.settings i { color: #fd7e14; }
+    .sidebar a.support i { color: #20c997; }
+    .sidebar a.tasks-earn i { color: #dc3545; }
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -208,34 +208,15 @@
     }
 
     document.getElementById("profilePic").addEventListener("click", () => {
-      const modal = document.getElementById("profileModal");
-      const user = firebase.auth().currentUser;
-
-      if (user) {
-        const username = user.displayName || "N/A";
-        const creationDate = new Date(user.metadata.creationTime);
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-
-        document.getElementById("username").textContent = `Username: ${username}`;
-        document.getElementById("memberSince").textContent = `Member Since: ${creationDate.toLocaleString('en-IN', options)}`;
-
-        modal.style.display = modal.style.display === "none" ? "block" : "none";
-      } else {
-        alert("User not logged in.");
-      }
+      document.getElementById("profileModal").style.display = "block";
     });
 
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest("#profilePic") && !e.target.closest("#profileModal")) {
+    document.getElementById("profileModal").addEventListener("click", (e) => {
+      if (e.target === document.getElementById("profileModal")) {
         document.getElementById("profileModal").style.display = "none";
       }
     });
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = 'index.html';
-      }
-    });
   </script>
 </body>
 </html>
