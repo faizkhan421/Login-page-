@@ -1,108 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login / Sign Up</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>ShortXurl | Login & Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    /* Basic Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
-      background-color: #f1f1f1;
-      margin: 0;
-      padding: 0;
+      background-color: #121212;
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
+      transition: background 0.3s ease;
     }
-    .light {
-      background-color: #fff;
-      color: #333;
-    }
-    .dark {
-      background-color: #333;
-      color: #fff;
-    }
-    .form-container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 300px;
-      padding: 20px;
-      text-align: center;
-    }
-    .form-container input {
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 172, 238, 0.2);
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      max-width: 420px;
+      position: relative;
     }
-    .form-container button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
+    .container h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #00acee;
+    }
+    .container p.subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 12px 40px 12px 15px;
+      border-radius: 8px;
       border: none;
+      background-color: #2b2b2b;
       color: white;
-      border-radius: 4px;
+    }
+    .form-group i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00acee;
       cursor: pointer;
     }
-    .form-container button:hover {
-      background-color: #45a049;
+    .form-group label {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      gap: 8px;
+    }
+    .form-group input[type="checkbox"] {
+      accent-color: #00acee;
+      transform: scale(1.2);
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00acee;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #0088cc;
+    }
+    .toggle {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .toggle a {
+      color: #00acee;
+      text-decoration: none;
+      cursor: pointer;
     }
     .theme-toggle {
-      font-size: 20px;
-      cursor: pointer;
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 20px;
-    }
-    .toggle-text {
-      font-size: 14px;
-      color: #555;
-    }
-    .password-toggle {
+      font-size: 22px;
       cursor: pointer;
+      color: #00acee;
+      z-index: 1000;
     }
-    .password-toggle i {
-      position: absolute;
-      right: 10px;
-      top: 12px;
+    body.light {
+      background: #f0f0f0;
+      color: #000;
+    }
+    body.light .container {
+      background-color: #fff;
+      color: #000;
+    }
+    body.light .form-group input {
+      background-color: #f0f0f0;
+      color: #000;
+    }
+    body.light .toggle {
+      color: #444;
+    }
+    body.light .btn {
+      background-color: #0088cc;
+    }
+    body.light .btn:hover {
+      background-color: #007bb3;
     }
   </style>
 </head>
 <body>
-
-  <div class="form-container">
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon" id="themeIcon"></i>
+  </div>
+  <div class="container" id="formContainer">
     <h2 id="formTitle">Welcome Back</h2>
-    <p id="formSubtitle">Login to continue to ShortXurl</p>
-    
-    <form id="authForm" onsubmit="handleSubmit(event)">
-      <div id="nameGroup" style="display:none;">
-        <input type="text" id="name" placeholder="Full Name" required>
+    <p class="subtitle" id="formSubtitle">Login to continue to ShortXurl</p>
+    <form id="authForm" onsubmit="handleSubmit(event)" autocomplete="on">
+      <div class="form-group" id="nameGroup" style="display: none;">
+        <input type="text" name="fullname" placeholder="Full Name" id="name" />
+        <i class="fas fa-user"></i>
       </div>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <div id="confirmPasswordGroup" style="display:none;">
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email" id="email" required />
+        <i class="fas fa-envelope"></i>
       </div>
-      
-      <div id="checkboxGroup">
-        <label>
-          <input type="checkbox" id="termsCheck" required> I agree to Terms & Conditions
-        </label>
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" id="password" required />
+        <i class="fas fa-lock" onclick="togglePasswordVisibility()"></i>
       </div>
-
-      <button type="submit" id="submitBtn">Login</button>
+      <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword" />
+        <i class="fas fa-lock" onclick="togglePasswordVisibility('confirmPassword')"></i>
+      </div>
+      <div class="form-group" id="checkboxGroup">
+        <!-- Dynamic Checkboxes inserted by JS -->
+      </div>
+      <button type="submit" class="btn" id="submitBtn">Login</button>
     </form>
-    
-    <div class="toggle-text" id="toggleText">
+    <div class="toggle" id="toggleText">
       Don't have an account? <a onclick="toggleForm()">Sign Up</a>
     </div>
   </div>
 
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -120,16 +178,16 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    let isSignup = false;
+    window.isSignup = false;
 
-    function toggleTheme() {
+    window.toggleTheme = function () {
       document.body.classList.toggle("light");
       const icon = document.getElementById("themeIcon");
       icon.classList.toggle("fa-sun");
       icon.classList.toggle("fa-moon");
     }
 
-    function toggleForm() {
+    window.toggleForm = function () {
       isSignup = !isSignup;
       document.getElementById("formTitle").textContent = isSignup ? "Create Account" : "Welcome Back";
       document.getElementById("formSubtitle").textContent = isSignup
@@ -146,73 +204,47 @@
         : 'Don\'t have an account? <a onclick="toggleForm()">Sign Up</a>';
     }
 
-    function togglePasswordVisibility(id = 'password') {
-      const passwordField = document.getElementById(id);
-      const passwordIcon = passwordField.nextElementSibling;
-      const type = passwordField.type === 'password' ? 'text' : 'password';
-      passwordField.type = type;
-
-      if (type === 'text') {
-        passwordIcon.classList.remove('fa-lock');
-        passwordIcon.classList.add('fa-eye');
-      } else {
-        passwordIcon.classList.remove('fa-eye');
-        passwordIcon.classList.add('fa-lock');
-      }
+    window.togglePasswordVisibility = function (id = 'password') {
+      const field = document.getElementById(id);
+      const icon = field.nextElementSibling;
+      field.type = field.type === 'password' ? 'text' : 'password';
+      icon.classList.toggle('fa-lock');
+      icon.classList.toggle('fa-eye');
     }
 
-    function handleSubmit(event) {
-      event.preventDefault();
+    window.handleSubmit = async function (e) {
+      e.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
       if (isSignup) {
         const confirm = document.getElementById("confirmPassword").value;
         const terms = document.getElementById("termsCheck").checked;
-        if (password !== confirm) {
-          alert("Passwords do not match!");
-          return;
+        if (password !== confirm) return alert("Passwords do not match!");
+        if (!terms) return alert("Please accept the Terms & Conditions.");
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          alert("Signup successful! Please login.");
+          toggleForm();
+        } catch (err) {
+          alert("Signup failed: " + err.message);
         }
-        if (!terms) {
-          alert("You must agree to the terms.");
-          return;
-        }
-
-        // Firebase Signup
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            alert("Signup successful! Redirecting to login...");
-            toggleForm(); // Move to login form
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert("Error: " + errorMessage);
-          });
       } else {
         const remember = document.getElementById("rememberCheck").checked;
-        if (!remember) {
-          alert("Please check 'Remember Me' to proceed.");
-          return;
+        if (!remember) return alert("Please check 'Remember Me' to proceed.");
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          alert("Login successful! Redirecting to dashboard...");
+          window.location.href = "dashboard.html";
+        } catch (err) {
+          alert("Login failed: " + err.message);
         }
-
-        // Firebase Login
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            alert("Login successful! Redirecting to dashboard...");
-            window.location.href = "dashboard.html";
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert("Error: " + errorMessage);
-          });
       }
     }
 
     window.onload = () => {
-      toggleForm(); // Default: Login view
-      toggleForm(); // Reset to Login properly
+      toggleForm();
+      toggleForm();
     };
   </script>
 </body>
