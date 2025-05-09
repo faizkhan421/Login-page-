@@ -12,7 +12,6 @@
       color: white;
       transition: background 0.3s, color 0.3s;
     }
-
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -23,58 +22,46 @@
       top: 0;
       z-index: 1000;
     }
-
     .menu-icon {
       font-size: 24px;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
-
-    .menu-icon:hover {
-      transform: rotate(90deg);
-    }
-
+    .menu-icon:hover { transform: rotate(90deg); }
     .center-icon {
       display: flex;
       align-items: center;
       gap: 10px;
       font-size: 18px;
     }
-
     .center-icon i {
       font-size: 20px;
       color: #00acee;
     }
-
     .right-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
     }
-
     .toggle-theme {
       cursor: pointer;
       font-size: 20px;
       transition: transform 0.3s ease;
     }
-
     .toggle-theme:hover {
       transform: scale(1.1);
     }
-
     .profile-pic {
       width: 30px;
       height: 30px;
       border-radius: 50%;
       background: gray;
     }
-
     .main {
       display: flex;
       height: calc(100vh - 60px);
     }
-
     .sidebar {
       width: 220px;
       background-color: #1a1a1a;
@@ -84,7 +71,6 @@
       transition: all 0.3s ease;
       overflow: hidden;
     }
-
     .sidebar .header-title {
       text-align: center;
       font-size: 24px;
@@ -92,14 +78,12 @@
       padding: 5px 10px 0;
       color: #00acee;
     }
-
     .sidebar .subtext {
       text-align: center;
       font-size: 12px;
       color: #ccc;
       margin-bottom: 15px;
     }
-
     .sidebar .balance-box {
       display: flex;
       align-items: center;
@@ -109,7 +93,6 @@
       color: #fff;
       border-bottom: 1px solid #333;
     }
-
     .sidebar a {
       display: flex;
       align-items: center;
@@ -121,16 +104,12 @@
       white-space: nowrap;
       transition: background 0.3s ease;
     }
-
     .sidebar a i {
       transition: color 0.3s ease;
     }
-
     .sidebar a:hover {
       background-color: #333;
     }
-
-    /* Unique icon colors */
     .sidebar a:nth-child(3) i { color: #4CAF50; }
     .sidebar a:nth-child(4) i { color: #FF9800; }
     .sidebar a:nth-child(5) i { color: #9C27B0; }
@@ -139,40 +118,32 @@
     .sidebar a:nth-child(8) i { color: #FF5722; }
     .sidebar a:nth-child(9) i { color: #607D8B; }
     .sidebar a:nth-child(10) i { color: #f44336; }
-
     .content {
       flex: 1;
       background-color: #121212;
       transition: margin-left 0.3s ease;
     }
-
     iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
-
     .light-mode {
       background: #f5f5f5;
       color: black;
     }
-
     .light-mode .navbar,
     .light-mode .sidebar {
       background-color: #fff;
     }
-
     .light-mode .sidebar a {
       color: black;
       border-color: #ddd;
     }
-
     .light-mode .sidebar .balance-box,
     .light-mode .sidebar .subtext {
       color: #000;
     }
-
-    /* Sidebar responsive & toggle */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -181,19 +152,10 @@
         height: calc(100vh - 60px);
         z-index: 999;
       }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .content {
-        margin-left: 0;
-      }
+      .sidebar.open { left: 0; }
+      .content { margin-left: 0; }
     }
-
-    .sidebar.open {
-      width: 220px;
-    }
+    .sidebar.open { width: 220px; }
   </style>
 </head>
 <body>
@@ -224,13 +186,27 @@
       <a href="#" onclick="loadPage('pages/tasks.html')"><i class="fas fa-tasks"></i> Tasks Earn</a>
       <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
-
     <div class="content">
       <iframe id="pageFrame" src="pages/home.html"></iframe>
     </div>
   </div>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script>
+    // Replace this config with your actual Firebase project config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
     function loadPage(page) {
       document.getElementById("pageFrame").src = page;
     }
@@ -248,8 +224,13 @@
     }
 
     function logout() {
-      alert("Logged out successfully!");
-      window.location.href = 'login.html';
+      firebase.auth().signOut().then(() => {
+        alert("Logged out successfully!");
+        window.location.href = 'index.html';
+      }).catch((error) => {
+        console.error("Logout error:", error);
+        alert("Logout failed!");
+      });
     }
   </script>
 
