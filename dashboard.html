@@ -97,6 +97,13 @@
     .light-mode .navbar, .light-mode .sidebar { background-color: #fff; }
     .light-mode .sidebar a { color: black; border-color: #ddd; }
     .light-mode .sidebar .balance-box, .light-mode .sidebar .subtext { color: #000; }
+    .sidebar a.dashboard i { color: #007bff; } /* Blue */
+    .sidebar a.manage-links i { color: #28a745; } /* Green */
+    .sidebar a.payment i { color: #ffc107; } /* Gold */
+    .sidebar a.referrals i { color: #6f42c1; } /* Purple */
+    .sidebar a.settings i { color: #fd7e14; } /* Orange */
+    .sidebar a.support i { color: #20c997; } /* Teal */
+    .sidebar a.tasks-earn i { color: #dc3545; } /* Red */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -140,20 +147,20 @@
       <div class="header-title">SHORTXURL</div>
       <div class="subtext">SHORT LINK WITH TASKS EARN AND EARN MONEY</div>
       <div class="balance-box"><i class="fas fa-wallet"></i> ₹0.00</div>
-      <a href="#" onclick="loadPage('pages/home.html')"><i class="fas fa-home"></i> Dashboard</a>
-      <a href="#" onclick="loadPage('pages/manage-links.html')"><i class="fas fa-link"></i> Manage Links</a>
-      <a href="#" onclick="loadPage('pages/payment.html')"><i class="fas fa-wallet"></i> Payment</a>
-      <a href="#" onclick="loadPage('pages/referrals.html')"><i class="fas fa-users"></i> Referrals</a>
-      <a href="#" onclick="loadPage('pages/settings.html')"><i class="fas fa-cog"></i> Settings</a>
-      <a href="#" onclick="loadPage('pages/support.html')"><i class="fas fa-headset"></i> Support</a>
-      <a href="#" onclick="loadPage('pages/tasks.html')"><i class="fas fa-tasks"></i> Tasks Earn</a>
+      <a href="#" class="dashboard" onclick="loadPage('pages/home.html')"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="#" class="manage-links" onclick="loadPage('pages/manage-links.html')"><i class="fas fa-link"></i> Manage Links</a>
+      <a href="#" class="payment" onclick="loadPage('pages/payment.html')"><i class="fas fa-wallet"></i> Payment</a>
+      <a href="#" class="referrals" onclick="loadPage('pages/referrals.html')"><i class="fas fa-users"></i> Referrals</a>
+      <a href="#" class="settings" onclick="loadPage('pages/settings.html')"><i class="fas fa-cog"></i> Settings</a>
+      <a href="#" class="support" onclick="loadPage('pages/support.html')"><i class="fas fa-headset"></i> Support</a>
+      <a href="#" class="tasks-earn" onclick="loadPage('pages/tasks.html')"><i class="fas fa-tasks"></i> Tasks Earn</a>
       <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
     <div class="content">
       <iframe id="pageFrame" src="pages/home.html"></iframe>
     </div>
   </div>
-  
+
   <!-- Profile Modal -->
   <div id="profileModal">
     <p id="username">Username: </p>
