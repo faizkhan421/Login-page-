@@ -1,46 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manage Links</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-    header {
-      background: #4CAF50;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    .container {
-      padding: 20px;
-    }
-    .link-box {
-      background: white;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Manage Your Links</h1>
-  </header>
   <div class="container">
-    <div class="link-box">
-      <p><strong>Short URL:</strong> https://shortxurl.in/abc123</p>
-      <p><strong>Clicks:</strong> 143</p>
-      <button>Edit</button>
-      <button>Delete</button>
-    </div>
-    <!-- More links yaha show karoge dynamically -->
+    <h2>Manage Your Links</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Short Code</th>
+          <th>Original URL</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="linksTable"></tbody>
+    </table>
   </div>
+
+  <script>
+    const firebaseConfig = {
+          apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
+    authDomain: "shortxurl-c17c1.firebaseapp.com",
+    projectId: "shortxurl-c17c1",
+    storageBucket: "shortxurl-c17c1.firebasestorage.app",
+    messagingSenderId: "709834272600",
+    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
+    measurementId: "G-M0ZNWXTFTE"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const linksTable = document.getElementById("linksTable");
+
+    function fetchLinks() {
+      db.collection("shortLinks").get().then(snapshot => {
+        linksTable.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${data.shortCode}</td>
+            <td contenteditable="true" data-id="${doc.id}" class="editable">${data.originalUrl}</td>
+            <td>
+              <button onclick="updateLink('${doc.id}')">Update</button>
+              <button onclick="deleteLink('${doc.id}')">Delete</button>
+            </td>
+          `;
+          linksTable.appendChild(row);
+        });
+      });
+    }
+
+    function updateLink(docId) {
+      const row = document.querySelector(`[data-id="${docId}"]`);
+      const updatedUrl = row.textContent.trim();
+      db.collection("shortLinks").doc(docId).update({
+        originalUrl: updatedUrl
+      }).then(() => {
+        alert("Link updated!");
+      });
+    }
+
+    function deleteLink(docId) {
+      if (confirm("Are you sure to delete this link?")) {
+        db.collection("shortLinks").doc(docId).delete().then(() => {
+          alert("Link deleted!");
+          fetchLinks();
+        });
+      }
+    }
+
+    fetchLinks();
+  </script>
 </body>
 </html>
