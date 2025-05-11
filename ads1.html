@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Ad Page 1</title>
   <style>
     body { font-family: Arial; text-align: center; padding: 40px; }
-    #continueBtn { display: none; margin-top: 20px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h2>Watch Ad - Step 1 of 4</h2>
-  <img src="https://via.placeholder.com/728x90" alt="Ad Banner">
-  <p id="timer">Wait 20 seconds...</p>
-  <button id="continueBtn" onclick="window.location.href='ads2.html'">Continue</button>
+  <h2>Step 1: Please wait 20 seconds</h2>
+  <p id="timer">20</p>
+  <button id="continueBtn" class="hidden" onclick="goNext()">Continue</button>
 
   <script>
-    let sec = 20;
-    const timer = setInterval(() => {
-      document.getElementById("timer").innerText = `Wait ${sec--} seconds...`;
-      if (sec < 0) {
-        clearInterval(timer);
-        window.onscroll = () => document.getElementById("continueBtn").style.display = "inline";
+    let seconds = 20;
+    const timer = document.getElementById("timer");
+    const continueBtn = document.getElementById("continueBtn");
+
+    const countdown = setInterval(() => {
+      seconds--;
+      timer.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        timer.textContent = "Done!";
       }
     }, 1000);
+
+    window.addEventListener("scroll", () => {
+      if (seconds <= 0) {
+        continueBtn.classList.remove("hidden");
+      }
+    });
+
+    function goNext() {
+      window.location.href = "ads2.html?code=" + getUrlParam("code");
+    }
+
+    function getUrlParam(key) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(key);
+    }
   </script>
 </body>
 </html>
