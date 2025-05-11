@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Final Page</title>
+  <meta charset="UTF-8" />
+  <title>Final Step</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
   <style>
     body { font-family: Arial; text-align: center; padding: 40px; }
-    #getLink { display: none; margin-top: 20px; }
+    #getLinkBtn { display: none; }
   </style>
 </head>
 <body>
-  <h2>Final Step</h2>
-  <p>Preparing your link...</p>
-  <button id="getLink" onclick="window.location.href=redirectUrl">Get Link</button>
+  <h2>Final Step: Wait 5 Seconds</h2>
+  <p id="timer">5</p>
+  <button id="getLinkBtn" onclick="redirectToLink()">Get Link</button>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const redirectUrl = params.get('redirect');
-    setTimeout(() => {
-      document.getElementById("getLink").style.display = "inline";
-    }, 5000);
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let seconds = 5;
+    const timer = document.getElementById("timer");
+    const getLinkBtn = document.getElementById("getLinkBtn");
+
+    const countdown = setInterval(() => {
+      seconds--;
+      timer.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        getLinkBtn.style.display = "inline-block";
+      }
+    }, 1000);
+
+    function redirectToLink() {
+      const code = new URLSearchParams(window.location.search).get("code");
+      db.collection("shortLinks").doc(code).get().then((doc) => {
+        if (doc.exists) {
+          const originalURL = doc.data().url;
+          window.location.href = originalURL;
+        } else {
+          alert("Link not found.");
+        }
+      });
+    }
   </script>
 </body>
 </html>
