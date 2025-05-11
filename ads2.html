@@ -1,55 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Ad Page 2</title>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 40px; }
-    #continueBtn { display: none; margin-top: 20px; }
-  </style>
+  <style>body { font-family: Arial; text-align: center; padding: 40px; } .hidden { display: none; }</style>
 </head>
 <body>
-  <h2>Watch Ad - Step 2 of 4</h2>
-  <img src="https://via.placeholder.com/728x90" alt="Ad Banner">
-  <p id="timer">Wait 10 seconds...</p>
-  <button id="continueBtn" onclick="window.location.href='ads3.html'">Continue</button>
+  <h2>Step 2: Wait 10 seconds</h2>
+  <p id="timer">10</p>
+  <button id="continueBtn" class="hidden" onclick="goNext()">Continue</button>
 
   <script>
-    let sec = 10;
-    const timer = setInterval(() => {
-      document.getElementById("timer").innerText = `Wait ${sec--} seconds...`;
-      if (sec < 0) {
-        clearInterval(timer);
-        window.onscroll = () => document.getElementById("continueBtn").style.display = "inline";
-      }
-    }, 1000);
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Ad Page 2</title>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 40px; }
-    #continueBtn { display: none; margin-top: 20px; }
-  </style>
-</head>
-<body>
-  <h2>Watch Ad - Step 2 of 4</h2>
-  <img src="https://via.placeholder.com/728x90" alt="Ad Banner">
-  <p id="timer">Wait 10 seconds...</p>
-  <button id="continueBtn" onclick="window.location.href='ads3.html'">Continue</button>
+    let seconds = 10;
+    const timer = document.getElementById("timer");
+    const continueBtn = document.getElementById("continueBtn");
 
-  <script>
-    let sec = 10;
-    const timer = setInterval(() => {
-      document.getElementById("timer").innerText = `Wait ${sec--} seconds...`;
-      if (sec < 0) {
-        clearInterval(timer);
-        window.onscroll = () => document.getElementById("continueBtn").style.display = "inline";
-      }
+    const countdown = setInterval(() => {
+      seconds--;
+      timer.textContent = seconds;
+      if (seconds <= 0) clearInterval(countdown);
     }, 1000);
+
+    window.addEventListener("scroll", () => {
+      if (seconds <= 0) {
+        continueBtn.classList.remove("hidden");
+      }
+    });
+
+    function goNext() {
+      window.location.href = "ads3.html?code=" + getUrlParam("code");
+    }
+
+    function getUrlParam(key) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(key);
+    }
   </script>
 </body>
 </html>
