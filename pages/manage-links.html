@@ -3,29 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Manage Links</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <title>Manage Links - ShortXurl</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2f3640;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    button {
+      padding: 6px 12px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: white;
+    }
+    .edit-btn {
+      background-color: #27ae60;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Manage Your Links</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Short Code</th>
-          <th>Original URL</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="linksTable"></tbody>
-    </table>
-  </div>
+  <h1>Manage Your Shortened Links</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Short ID</th>
+        <th>Destination URL</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="linksTable">
+      <!-- Dynamic rows will load here -->
+    </tbody>
+  </table>
+
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <script>
     const firebaseConfig = {
-          apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
+      apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
     authDomain: "shortxurl-c17c1.firebaseapp.com",
     projectId: "shortxurl-c17c1",
     storageBucket: "shortxurl-c17c1.firebasestorage.app",
@@ -33,51 +79,54 @@
     appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
     measurementId: "G-M0ZNWXTFTE"
     };
-    
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    const linksTable = document.getElementById("linksTable");
+    const tableBody = document.getElementById("linksTable");
 
-    function fetchLinks() {
-      db.collection("shortLinks").get().then(snapshot => {
-        linksTable.innerHTML = "";
-        snapshot.forEach(doc => {
+    // Load data
+    function loadLinks() {
+      db.collection("shortUrls").get().then((querySnapshot) => {
+        tableBody.innerHTML = "";
+        querySnapshot.forEach((doc) => {
           const data = doc.data();
           const row = document.createElement("tr");
+
           row.innerHTML = `
-            <td>${data.shortCode}</td>
-            <td contenteditable="true" data-id="${doc.id}" class="editable">${data.originalUrl}</td>
+            <td>${data.shortId}</td>
+            <td contenteditable="true" data-id="${doc.id}">${data.destination}</td>
             <td>
-              <button onclick="updateLink('${doc.id}')">Update</button>
-              <button onclick="deleteLink('${doc.id}')">Delete</button>
+              <button class="edit-btn" onclick="editLink('${doc.id}')">Save</button>
+              <button class="delete-btn" onclick="deleteLink('${doc.id}')">Delete</button>
             </td>
           `;
-          linksTable.appendChild(row);
+
+          tableBody.appendChild(row);
         });
       });
     }
 
-    function updateLink(docId) {
-      const row = document.querySelector(`[data-id="${docId}"]`);
-      const updatedUrl = row.textContent.trim();
-      db.collection("shortLinks").doc(docId).update({
-        originalUrl: updatedUrl
+    function editLink(id) {
+      const row = document.querySelector(`[data-id="${id}"]`);
+      const newURL = row.innerText.trim();
+      db.collection("shortUrls").doc(id).update({
+        destination: newURL
       }).then(() => {
-        alert("Link updated!");
+        alert("Link updated successfully!");
       });
     }
 
-    function deleteLink(docId) {
-      if (confirm("Are you sure to delete this link?")) {
-        db.collection("shortLinks").doc(docId).delete().then(() => {
+    function deleteLink(id) {
+      if (confirm("Are you sure you want to delete this link?")) {
+        db.collection("shortUrls").doc(id).delete().then(() => {
           alert("Link deleted!");
-          fetchLinks();
+          loadLinks();
         });
       }
     }
 
-    fetchLinks();
+    loadLinks();
   </script>
 </body>
 </html>
