@@ -1,1 +1,24 @@
-final.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Page</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 40px; }
+    #getLink { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Final Step</h2>
+  <p>Preparing your link...</p>
+  <button id="getLink" onclick="window.location.href=redirectUrl">Get Link</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const redirectUrl = params.get('redirect');
+    setTimeout(() => {
+      document.getElementById("getLink").style.display = "inline";
+    }, 5000);
+  </script>
+</body>
+</html>
