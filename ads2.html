@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ad Page 2</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 40px; }
+    #continueBtn { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Watch Ad - Step 2 of 4</h2>
+  <img src="https://via.placeholder.com/728x90" alt="Ad Banner">
+  <p id="timer">Wait 10 seconds...</p>
+  <button id="continueBtn" onclick="window.location.href='ads3.html'">Continue</button>
 
+  <script>
+    let sec = 10;
+    const timer = setInterval(() => {
+      document.getElementById("timer").innerText = `Wait ${sec--} seconds...`;
+      if (sec < 0) {
+        clearInterval(timer);
+        window.onscroll = () => document.getElementById("continueBtn").style.display = "inline";
+      }
+    }, 1000);
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ad Page 2</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 40px; }
+    #continueBtn { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Watch Ad - Step 2 of 4</h2>
+  <img src="https://via.placeholder.com/728x90" alt="Ad Banner">
+  <p id="timer">Wait 10 seconds...</p>
+  <button id="continueBtn" onclick="window.location.href='ads3.html'">Continue</button>
+
+  <script>
+    let sec = 10;
+    const timer = setInterval(() => {
+      document.getElementById("timer").innerText = `Wait ${sec--} seconds...`;
+      if (sec < 0) {
+        clearInterval(timer);
+        window.onscroll = () => document.getElementById("continueBtn").style.display = "inline";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
