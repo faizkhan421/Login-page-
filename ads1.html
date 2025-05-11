@@ -2,45 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Ad Page 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting - Step 1</title>
   <style>
-    body { font-family: Arial; text-align: center; padding: 40px; }
+    body { font-family: Arial; text-align: center; padding: 30px; }
     .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h2>Step 1: Please wait 20 seconds</h2>
+  <h2>Wait 20 seconds to continue</h2>
   <p id="timer">20</p>
-  <button id="continueBtn" class="hidden" onclick="goNext()">Continue</button>
+  <button id="continueBtn" class="hidden">Scroll & Continue</button>
 
   <script>
-    let seconds = 20;
-    const timer = document.getElementById("timer");
-    const continueBtn = document.getElementById("continueBtn");
+    let time = 20;
+    const timer = document.getElementById('timer');
+    const continueBtn = document.getElementById('continueBtn');
 
-    const countdown = setInterval(() => {
-      seconds--;
-      timer.textContent = seconds;
-      if (seconds <= 0) {
-        clearInterval(countdown);
-        timer.textContent = "Done!";
+    const interval = setInterval(() => {
+      time--;
+      timer.textContent = time;
+      if (time === 0) {
+        clearInterval(interval);
+        continueBtn.classList.remove('hidden');
       }
     }, 1000);
 
-    window.addEventListener("scroll", () => {
-      if (seconds <= 0) {
-        continueBtn.classList.remove("hidden");
-      }
-    });
-
-    function goNext() {
-      window.location.href = "ads2.html?code=" + getUrlParam("code");
-    }
-
-    function getUrlParam(key) {
+    continueBtn.addEventListener('click', () => {
       const params = new URLSearchParams(window.location.search);
-      return params.get(key);
-    }
+      window.location.href = `ads2.html?id=${params.get('id')}`;
+    });
   </script>
 </body>
 </html>
