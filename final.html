@@ -2,52 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Final Step</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Your Link</title>
   <style>
-    body { font-family: Arial; text-align: center; padding: 40px; }
-    #getLinkBtn { display: none; }
+    body { font-family: Arial; text-align: center; padding: 30px; }
+    .hidden { display: none; }
   </style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
-  <h2>Final Step: Wait 5 Seconds</h2>
+  <h2>Your Link Is Almost Ready</h2>
   <p id="timer">5</p>
-  <button id="getLinkBtn" onclick="redirectToLink()">Get Link</button>
+  <button id="getLinkBtn" class="hidden">Get Link</button>
 
   <script>
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_DOMAIN",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
       projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
-    firebase.initializeApp(firebaseConfig);
+
+    const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    let seconds = 5;
-    const timer = document.getElementById("timer");
-    const getLinkBtn = document.getElementById("getLinkBtn");
+    let time = 5;
+    const timer = document.getElementById('timer');
+    const getLinkBtn = document.getElementById('getLinkBtn');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
 
-    const countdown = setInterval(() => {
-      seconds--;
-      timer.textContent = seconds;
-      if (seconds <= 0) {
-        clearInterval(countdown);
-        getLinkBtn.style.display = "inline-block";
+    const interval = setInterval(() => {
+      time--;
+      timer.textContent = time;
+      if (time === 0) {
+        clearInterval(interval);
+        getLinkBtn.classList.remove('hidden');
       }
     }, 1000);
 
-    function redirectToLink() {
-      const code = new URLSearchParams(window.location.search).get("code");
-      db.collection("shortLinks").doc(code).get().then((doc) => {
-        if (doc.exists) {
-          const originalURL = doc.data().url;
-          window.location.href = originalURL;
-        } else {
-          alert("Link not found.");
-        }
-      });
-    }
+    getLinkBtn.addEventListener('click', async () => {
+      const doc = await db.collection('shortUrls').doc(id).get();
+      if (doc.exists) {
+        const originalUrl = doc.data().originalUrl;
+        window.location.href = originalUrl;
+      } else {
+        alert('Invalid Link');
+      }
+    });
   </script>
 </body>
 </html>
