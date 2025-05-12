@@ -1,3 +1,4 @@
+<!-- Full Updated Code -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,33 +150,72 @@
     </div>
   </div>
 
-  <!-- Stats Section (Vertical Layout) -->
+  <!-- Monthly Stats Section -->
   <div class="stats">
     <div class="stat">
       <div class="stat-content">
         <h2 id="totalViews">0</h2>
-        <p>Total Views</p>
+        <p>Total Monthly Views</p>
       </div>
       <i class="fas fa-eye"></i>
     </div>
     <div class="stat">
       <div class="stat-content">
         <h2 id="totalEarnings">₹0.00</h2>
-        <p>Total Earnings</p>
+        <p>Total Monthly Earnings</p>
       </div>
       <i class="fas fa-rupee-sign"></i>
     </div>
     <div class="stat">
       <div class="stat-content">
         <h2 id="referralEarnings">₹0.00</h2>
-        <p>Referral Earnings</p>
+        <p>Referral Monthly Earnings</p>
       </div>
       <i class="fas fa-user-friends"></i>
     </div>
     <div class="stat">
       <div class="stat-content">
         <h2 id="avgCpm">₹0.00</h2>
-        <p>Average CPM</p>
+        <p>Average Monthly CPM</p>
+      </div>
+      <i class="fas fa-chart-line"></i>
+    </div>
+  </div>
+
+  <!-- Today's Report Section -->
+  <div class="stats" style="margin-top: 40px;">
+    <div class="stat">
+      <div class="stat-content">
+        <h2 id="liveTime">--:--</h2>
+        <p>Today’s Report / Live Date & Time</p>
+      </div>
+      <i class="fas fa-clock"></i>
+    </div>
+    <div class="stat">
+      <div class="stat-content">
+        <h2 id="todayViews">0</h2>
+        <p>Today's Views</p>
+      </div>
+      <i class="fas fa-eye"></i>
+    </div>
+    <div class="stat">
+      <div class="stat-content">
+        <h2 id="todayEarnings">₹0.00</h2>
+        <p>Today's Earnings</p>
+      </div>
+      <i class="fas fa-rupee-sign"></i>
+    </div>
+    <div class="stat">
+      <div class="stat-content">
+        <h2 id="todayReferral">₹0.00</h2>
+        <p>Referral Earnings Today</p>
+      </div>
+      <i class="fas fa-user-friends"></i>
+    </div>
+    <div class="stat">
+      <div class="stat-content">
+        <h2 id="todayCpm">₹0.00</h2>
+        <p>Today's CPM</p>
       </div>
       <i class="fas fa-chart-line"></i>
     </div>
@@ -184,19 +224,19 @@
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-    authDomain: "shortxurl-c17c1.firebaseapp.com",
-    projectId: "shortxurl-c17c1",
-    storageBucket: "shortxurl-c17c1.firebasestorage.app",
-    messagingSenderId: "709834272600",
-    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-    measurementId: "G-M0ZNWXTFTE"
+      authDomain: "shortxurl-c17c1.firebaseapp.com",
+      projectId: "shortxurl-c17c1",
+      storageBucket: "shortxurl-c17c1.firebasestorage.app",
+      messagingSenderId: "709834272600",
+      appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
+      measurementId: "G-M0ZNWXTFTE"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
     const uid = localStorage.getItem("uid") || "demo";
 
+    // Monthly Stats
     db.ref(`users/${uid}/stats`).on("value", (snap) => {
       const data = snap.val() || {};
       document.getElementById("totalViews").innerText = data.totalViews || 0;
@@ -205,6 +245,22 @@
       document.getElementById("avgCpm").innerText = `₹${(data.avgCpm || 0).toFixed(2)}`;
     });
 
+    // Daily Stats
+    db.ref(`users/${uid}/daily`).on("value", (snap) => {
+      const data = snap.val() || {};
+      document.getElementById("todayViews").innerText = data.views || 0;
+      document.getElementById("todayEarnings").innerText = `₹${(data.earnings || 0).toFixed(2)}`;
+      document.getElementById("todayReferral").innerText = `₹${(data.referral || 0).toFixed(2)}`;
+      document.getElementById("todayCpm").innerText = `₹${(data.cpm || 0).toFixed(2)}`;
+    });
+
+    // Live Date & Time
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("liveTime").innerText = now.toLocaleString();
+    }, 1000);
+
+    // Shorten URL
     let currentShortLink = "";
 
     function generateShortLink() {
