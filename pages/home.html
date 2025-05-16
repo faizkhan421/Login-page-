@@ -1,3 +1,4 @@
+IND
 <!-- Full Updated Code -->
 <!DOCTYPE html>
 <html lang="en">
@@ -158,7 +159,8 @@
         <p>Total Monthly Views</p>
       </div>
       <i class="fas fa-eye"></i>
-    </div>
+
+</div>
     <div class="stat">
       <div class="stat-content">
         <h2 id="totalEarnings">₹0.00</h2>
@@ -237,21 +239,21 @@
     const uid = localStorage.getItem("uid") || "demo";
 
     // Monthly Stats
-    db.ref(`users/${uid}/stats`).on("value", (snap) => {
+    db.ref(users/${uid}/stats).on("value", (snap) => {
       const data = snap.val() || {};
       document.getElementById("totalViews").innerText = data.totalViews || 0;
-      document.getElementById("totalEarnings").innerText = `₹${(data.totalEarnings || 0).toFixed(2)}`;
-      document.getElementById("referralEarnings").innerText = `₹${(data.referralEarnings || 0).toFixed(2)}`;
-      document.getElementById("avgCpm").innerText = `₹${(data.avgCpm || 0).toFixed(2)}`;
+      document.getElementById("totalEarnings").innerText = ₹${(data.totalEarnings || 0).toFixed(2)};
+      document.getElementById("referralEarnings").innerText = ₹${(data.referralEarnings || 0).toFixed(2)};
+      document.getElementById("avgCpm").innerText = ₹${(data.avgCpm || 0).toFixed(2)};
     });
 
     // Daily Stats
-    db.ref(`users/${uid}/daily`).on("value", (snap) => {
+    db.ref(users/${uid}/daily).on("value", (snap) => {
       const data = snap.val() || {};
       document.getElementById("todayViews").innerText = data.views || 0;
-      document.getElementById("todayEarnings").innerText = `₹${(data.earnings || 0).toFixed(2)}`;
-      document.getElementById("todayReferral").innerText = `₹${(data.referral || 0).toFixed(2)}`;
-      document.getElementById("todayCpm").innerText = `₹${(data.cpm || 0).toFixed(2)}`;
+      document.getElementById("todayEarnings").innerText = ₹${(data.earnings || 0).toFixed(2)};
+      document.getElementById("todayReferral").innerText = ₹${(data.referral || 0).toFixed(2)};
+      document.getElementById("todayCpm").innerText = ₹${(data.cpm || 0).toFixed(2)};
     });
 
     // Live Date & Time
@@ -281,7 +283,7 @@
       output.style.display = "flex";
     }
 
-    function copyLink() {
+function copyLink() {
       if (!currentShortLink) return;
       navigator.clipboard.writeText(currentShortLink).then(() => {
         alert("Copied!");
@@ -290,3 +292,125 @@
   </script>
 </body>
 </html>
+
+<!-- Announcement Section -->
+<div class="section announcement">
+  <div class="section-header icon-green">
+    <i class="fas fa-bullhorn"></i> <span>Announcement</span>
+  </div>
+  <div class="card card-announcement">
+    <div class="card-icon">
+    </div>
+    <div class="card-content">
+      <h2 class="card-heading">
+        <i class="fas fa-check-circle icon-green"></i> Which traffic is allowed on ShortXurl.in
+      </h2>
+      <p class="card-text">
+        <i class="fas fa-arrow-right"></i> MOVIES,18+ or Adult CONTENT,MOD APK, HACKS, SOFTWARE, CRACKED SOFTWARE & APPS AND YOU HAVE A DIFFERENT TYPE OF TRAFFIC, CONTACT US, WE WILL CHECK AND TELL YOU WHETHER THIS TRAFFIC IS ALLOWED.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Important Notice Section -->
+<div class="section important-notice">
+  <div class="section-header icon-red">
+    <i class="fas fa-exclamation-circle"></i> <span>Important Notice</span>
+  </div>
+  <div class="card card-notice">
+    <div class="card-icon">
+      <i class="fas fa-times-circle icon-red"></i>
+    </div>
+    <div class="card-content">
+      <h2 class="card-heading">
+        <i class="fas fa-times-circle icon-red"></i> Traffic Unallowed: Not OK
+      </h2>
+      <p class="card-text">
+        <i class="fas fa-arrow-left"></i> Jo shortener traffic unallow kare: Not OK
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .section {
+    margin: 30px 0;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-header {
+    width: 100%;
+    max-width: 600px;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .icon-green {
+    background-color: #d4edda;
+    color: #28a745;
+  }
+
+  .icon-red {
+    background-color: #f8d7da;
+    color: #dc3545;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-icon {
+    font-size: 2.8em;
+    margin-right: 20px;
+  }
+
+  .card-content {
+    flex-grow: 1;
+  }
+
+  .card-heading {
+    font-size: 1.6em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 1em;
+    color: #555;
+  }
+
+  .card-text i {
+    margin-right: 8px;
+  }
+
+  .announcement .card {
+    background-color: #e9f7ef;
+    border-left: 6px solid #28a745;
+  }
+
+  .important-notice .card {
+    background-color: #f8d7da;
+    border-left: 6px solid #dc3545;
+  }
+</style>
