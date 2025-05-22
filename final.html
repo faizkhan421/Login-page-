@@ -8,6 +8,7 @@
     body { font-family: Arial; text-align: center; padding: 30px; }
     .hidden { display: none; }
   </style>
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
@@ -17,24 +18,26 @@
   <button id="getLinkBtn" class="hidden">Get Link</button>
 
   <script>
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
-    authDomain: "shortxurl-c17c1.firebaseapp.com",
-    projectId: "shortxurl-c17c1",
-    storageBucket: "shortxurl-c17c1.firebasestorage.app",
-    messagingSenderId: "709834272600",
-    appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
-    measurementId: "G-M0ZNWXTFTE"
+      authDomain: "shortxurl-c17c1.firebaseapp.com",
+      projectId: "shortxurl-c17c1",
+      storageBucket: "shortxurl-c17c1.appspot.com",
+      messagingSenderId: "709834272600",
+      appId: "1:709834272600:web:9c0f2ef6b8782be23a7f2d",
+      measurementId: "G-M0ZNWXTFTE"
     };
 
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
+    // Countdown Timer
     let time = 5;
     const timer = document.getElementById('timer');
     const getLinkBtn = document.getElementById('getLinkBtn');
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+    const code = params.get('code');
 
     const interval = setInterval(() => {
       time--;
@@ -45,13 +48,15 @@
       }
     }, 1000);
 
+    // Redirect on button click using shortCode
     getLinkBtn.addEventListener('click', async () => {
-      const doc = await db.collection('shortUrls').doc(id).get();
-      if (doc.exists) {
+      const querySnapshot = await db.collection('shortUrls').where('shortCode', '==', code).get();
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
         const originalUrl = doc.data().originalUrl;
         window.location.href = originalUrl;
       } else {
-        alert('Invalid Link');
+        alert('Invalid or expired link.');
       }
     });
   </script>
