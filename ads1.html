@@ -99,7 +99,7 @@
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100 && !timerStarted) {
       timerStarted = true;
       document.getElementById("timer").innerText = "Please wait 5 seconds...";
-      let timeLeft = 5;
+      let timeLeft = 10;
       const interval = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = `Please wait ${timeLeft} seconds...`;
