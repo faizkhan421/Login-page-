@@ -30,7 +30,7 @@
     if (!code) {
       document.body.innerHTML = "<h2>Invalid Link</h2>";
     } else {
-      const linksRef = collection(db, "shortLinks"); // ✅ Collection name
+      const linksRef = collection(db, "shortUrls"); // ✅ Collection name
       const q = query(linksRef, where("shortCode", "==", code));
 
       getDocs(q).then((querySnapshot) => {
