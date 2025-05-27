@@ -46,9 +46,6 @@
       font-size: 28px;
       color: #00acee;
     }
-    .section {
-      margin-bottom: 30px;
-    }
     .short-link-box {
       background: #1e1e1e;
       border-radius: 10px;
@@ -123,7 +120,7 @@
   </style>
 </head>
 <body>
-  <!-- Short Link Section -->
+
   <div class="section">
     <h2>Dashboard / Dashboard</h2>
     <div class="short-link-box">
@@ -137,7 +134,6 @@
     </div>
   </div>
 
-  <!-- Wallet Section -->
   <div class="wallet-section">
     <div class="wallet-box">
       <i class="fas fa-wallet"></i>
@@ -149,7 +145,6 @@
     </div>
   </div>
 
-  <!-- Monthly Stats Section -->
   <div class="stats">
     <div class="stat">
       <div class="stat-content">
@@ -181,7 +176,6 @@
     </div>
   </div>
 
-  <!-- Today's Report Section -->
   <div class="stats" style="margin-top: 40px;">
     <div class="stat">
       <div class="stat-content">
@@ -220,7 +214,6 @@
     </div>
   </div>
 
-  <!-- Firebase + JS -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD0GwbCKKbjtIpb9W5MYT2LJmOBKGY6qcE",
@@ -237,7 +230,14 @@
     const db = firebase.database();
     const uid = localStorage.getItem("uid") || "demo";
 
-    // Monthly Stats
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-IN');
+      document.getElementById("liveTime").innerText = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
     db.ref(`users/${uid}/stats`).on("value", (snap) => {
       const data = snap.val() || {};
       document.getElementById("totalViews").innerText = data.totalViews || 0;
@@ -246,7 +246,6 @@
       document.getElementById("avgCpm").innerText = `₹${(data.avgCpm || 0).toFixed(2)}`;
     });
 
-    // Daily Stats
     db.ref(`users/${uid}/daily`).on("value", (snap) => {
       const data = snap.val() || {};
       document.getElementById("todayViews").innerText = data.views || 0;
@@ -255,25 +254,22 @@
       document.getElementById("todayCpm").innerText = `₹${(data.cpm || 0).toFixed(2)}`;
     });
 
-    // Live Time
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById("liveTime").innerText = now.toLocaleString();
-    }, 1000);
-
-    // Dummy Shortener Button (Customize logic if needed)
     function generateShortLink() {
-      const originalUrl = document.getElementById("originalUrl").value;
-      if (!originalUrl) return alert("Enter a valid URL!");
-      const shortUrl = "https://shortxurl.in/" + Math.random().toString(36).substring(7);
+      const originalUrl = document.getElementById("originalUrl").value.trim();
+      if (!originalUrl) return alert("Enter a valid URL");
+
+      const randomId = Math.random().toString(36).substring(2, 8);
+      const shortUrl = `https://shortxurl.web.app/s/${randomId}`;
+      
       document.getElementById("shortLinkText").href = shortUrl;
       document.getElementById("shortLinkText").innerText = shortUrl;
       document.getElementById("shortenedLink").style.display = "flex";
     }
 
     function copyLink() {
-      const text = document.getElementById("shortLinkText").innerText;
-      navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard!"));
+      const link = document.getElementById("shortLinkText").innerText;
+      navigator.clipboard.writeText(link);
+      alert("Link copied to clipboard!");
     }
   </script>
 </body>
