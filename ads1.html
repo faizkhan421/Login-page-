@@ -2,36 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirecting - Step 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Technology Trends 2025 - Step 1</title>
   <style>
-    body { font-family: Arial; text-align: center; padding: 30px; }
-    .hidden { display: none; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    p {
+      line-height: 1.7;
+      color: #444;
+    }
+    #timer {
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+      color: #2d862d;
+    }
+    #continueBtn {
+      display: none;
+      margin: 30px auto 0;
+      display: block;
+      background-color: #007bff;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h2>Wait 20 seconds to continue</h2>
-  <p id="timer">20</p>
-  <button id="continueBtn" class="hidden">Scroll & Continue</button>
 
-  <script>
-    let time = 20;
-    const timer = document.getElementById('timer');
-    const continueBtn = document.getElementById('continueBtn');
+<div class="container">
+  <h1>Top 5 Emerging Tech Trends in 2025</h1>
 
-    const interval = setInterval(() => {
-      time--;
-      timer.textContent = time;
-      if (time === 0) {
-        clearInterval(interval);
-        continueBtn.classList.remove('hidden');
-      }
-    }, 1000);
+  <img src="https://source.unsplash.com/800x400/?ai,technology" alt="AI Image" />
 
-    continueBtn.addEventListener('click', () => {
-      const params = new URLSearchParams(window.location.search);
-      window.location.href = `ads2.html?id=${params.get('id')}`;
-    });
-  </script>
+  <p>
+    Artificial Intelligence (AI) continues to lead the tech revolution in 2025. With generative AI models, real-time data processing, and automation expanding rapidly, industries like healthcare, education, and marketing are evolving at lightning speed. The growth of machine learning algorithms and their integration into everyday systems is unmatched.
+  </p>
+
+  <img src="https://source.unsplash.com/800x400/?robotics,innovation" alt="Robotics" />
+
+  <p>
+    Robotics is becoming smarter, safer, and more accessible. In 2025, home and industrial robots are being developed to handle complex tasks from surgery to logistics. The integration of AI makes them adaptive and self-learning.
+  </p>
+
+  <img src="https://source.unsplash.com/800x400/?metaverse,vr" alt="Metaverse" />
+
+  <p>
+    The Metaverse is not just a buzzword anymore. Virtual reality, augmented reality, and immersive 3D environments are transforming how people interact online. From gaming to corporate meetings, the digital experience has reached new dimensions.
+  </p>
+
+  <img src="https://source.unsplash.com/800x400/?blockchain,crypto" alt="Blockchain" />
+
+  <p>
+    Blockchain technology is not limited to cryptocurrencies. In 2025, blockchain is being used for everything from digital identity verification to smart contracts and secure voting systems. Transparency and decentralization are the new norm.
+  </p>
+
+  <img src="https://source.unsplash.com/800x400/?green,tech" alt="Green Tech" />
+
+  <p>
+    Sustainability is driving innovation. Clean energy tech, biodegradable materials, and carbon-neutral production processes are being adopted globally. Green tech is no longer optional, it's essential.
+  </p>
+
+  <div id="timer">Scroll down to unlock the continue button...</div>
+  <button id="continueBtn" onclick="goToNext()">Continue to Step 2</button>
+</div>
+
+<script>
+  let timerStarted = false;
+  let scrolledToBottom = false;
+
+  window.addEventListener("scroll", () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100 && !timerStarted) {
+      timerStarted = true;
+      document.getElementById("timer").innerText = "Please wait 5 seconds...";
+      let timeLeft = 5;
+      const interval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `Please wait ${timeLeft} seconds...`;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          document.getElementById("timer").innerText = "You can continue now.";
+          document.getElementById("continueBtn").style.display = "block";
+        }
+      }, 1000);
+    }
+  });
+
+  function goToNext() {
+    window.location.href = "ads2.html";
+  }
+</script>
+
 </body>
 </html>
