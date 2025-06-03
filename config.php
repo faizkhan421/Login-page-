@@ -7,7 +7,7 @@ define( 'YOURLS_DB_NAME', 'if0_38614495_XXX' );
 define( 'YOURLS_DB_HOST', 'sql105.infinityfree.com' );
 define( 'YOURLS_DB_PREFIX', 'yourls_' );
 
-define( 'YOURLS_SITE', 'http://yourdomain.com' ); // Change this to your domain
+define( 'YOURLS_SITE', 'https://shortxurl.rf.gd' ); // Change this to your domain
 
 define( 'YOURLS_HOURS_OFFSET', 0 );
 
@@ -22,6 +22,6 @@ $yourls_user_passwords = array(
 
 define( 'YOURLS_URL_CONVERT', 36 );
 
-define( 'YOURLS_DEBUG', false );
+define( 'YOURLS_DEBUG', true );
 
 /* End of YOURLS config.php */
